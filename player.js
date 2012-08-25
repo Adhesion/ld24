@@ -37,16 +37,17 @@ var Player = me.ObjectEntity.extend(
        // abilities
        this.haveDoubleJump = true;
        this.haveRocketJump = true;
-       this.haveWallStick = true;
        this.haveButtStomp = true;
+       this.haveWallStick = true;
        this.spikeHat = true;
 
        // mobility stuff
        this.doubleJumped = false;
        this.rocketJumped = false;
+       this.buttStomped = false;
        this.wallStuck = false;
        this.wallStuckDir = 0.0;
-       this.buttStomped = false;
+       this.wallStuckCounter = 0;
 
        this.fallCounter = 0;
        this.impactCounter = 0;
@@ -106,12 +107,19 @@ var Player = me.ObjectEntity.extend(
         var envRes = this.updateMovement();
 
         if ( ( this.jumping || this.falling ) &&
-            envRes.x != 0 && envRes.y == 0 )
+            envRes.x != 0 && envRes.y == 0 && envRes.xtile != null &&
+            !envRes.xprop.isPlatform )
         {
-            console.log( "wall?" );
+            //console.log( "wall?" );
+            if ( envRes.xprop.isPlatform )
+                console.log( "PLATFORM" );
+            if ( envRes.xtile.isCollisionMap )
+            {
+                console.log( "colmap" );
+            }
             if ( this.haveWallStick )
             {
-                console.log( "wallstuck" );
+                //console.log( "wallstuck" );
                 this.wallStuck = true;
                 this.wallStuckDir = envRes.x;
                 this.gravity = this.wallStuckGravity;
@@ -122,9 +130,10 @@ var Player = me.ObjectEntity.extend(
         else if ( envRes.y > 0 )
         {
             //console.log( envRes.tileId );
-            if ( this.fallCounter > 150 )
+            if ( this.fallCounter > 130 )
             {
                 this.hit( "fall" );
+                console.log( "falldeath" );
             }
             //console.log( "floor?" );
             this.rocketJumped = false;
@@ -211,6 +220,7 @@ var Player = me.ObjectEntity.extend(
         }
 
         if ( this.impactCounter > 0 ) --this.impactCounter;
+        if ( this.wallStuckCounter > 0 ) --this.wallStuckCounter;
 
         // update cam follow position
         this.followPos.x = this.pos.x + this.centerOffsetX;
@@ -231,17 +241,22 @@ var Player = me.ObjectEntity.extend(
                 this.wallStuck = false;
                 this.vel.x = this.wallStuckDir * -10.0;
                 this.vel.y = -20.0;
+                this.wallStuckCounter = 15;
             }
             return;
         }
 
-        if ( me.input.isKeyPressed( "left" ) )
+        // only able to run if we're not right after a walljump
+        if ( this.wallStuckCounter == 0 )
         {
-            this.doWalk( true );
-        }
-        else if ( me.input.isKeyPressed( "right" ) )
-        {
-            this.doWalk( false );
+            if ( me.input.isKeyPressed( "left" ) )
+            {
+                this.doWalk( true );
+            }
+            else if ( me.input.isKeyPressed( "right" ) )
+            {
+                this.doWalk( false );
+            }
         }
 
         if ( me.input.isKeyPressed( "jump" ) )
