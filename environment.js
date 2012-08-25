@@ -51,6 +51,8 @@ var Rock = me.ObjectEntity.extend(
     }
 });
 
+// TODO these might not have to be classes, maybe just entity props in map?
+
 var Spikes = me.ObjectEntity.extend(
 {
     init: function( x, y, settings )
@@ -58,5 +60,17 @@ var Spikes = me.ObjectEntity.extend(
         this.parent( x, y, settings );
         this.gravity = 0.0;
         this.collidable = true;
+        this.type = "spikes";
+    }
+});
+
+var Balloon = me.ObjectEntity.extend(
+{
+    init: function( x, y, settings )
+    {
+        this.parent( x, y, settings );
+        this.gravity = 0.0;
+        this.collidable = true;
+        this.type = "balloon";
     }
 });

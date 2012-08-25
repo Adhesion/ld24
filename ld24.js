@@ -35,6 +35,7 @@ var jsApp =
 
         me.entityPool.add( "rock", Rock );
         me.entityPool.add( "spikes", Spikes );
+        me.entityPool.add( "balloon", Balloon );
 
         me.debug.renderHitBox = true;
 

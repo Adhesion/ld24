@@ -50,9 +50,39 @@
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
-  <object name="spikes" x="753" y="4482" width="74" height="62">
+  <object name="spikes" x="1105" y="4513" width="48" height="48">
    <properties>
     <property name="image" value="spikes"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
+  <object name="balloon" x="681" y="4239" width="48" height="48">
+   <properties>
+    <property name="image" value="balloon"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
+  <object name="spikes" x="1059" y="4513" width="48" height="48">
+   <properties>
+    <property name="image" value="spikes"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
+  <object name="spikes" x="1008" y="4514" width="48" height="48">
+   <properties>
+    <property name="image" value="spikes"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
+  <object name="balloon" x="759" y="4254" width="48" height="48">
+   <properties>
+    <property name="image" value="balloon"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
+  <object name="balloon" x="843" y="4240" width="48" height="48">
+   <properties>
+    <property name="image" value="balloon"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
