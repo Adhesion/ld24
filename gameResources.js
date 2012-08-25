@@ -21,6 +21,7 @@ var gameResources =
 
     { name: "rock", type: "image", src: "data/rocktemp.png" },
     { name: "spikes", type: "image", src: "data/spiketemp.png" },
+    { name: "balloon", type: "image", src: "data/balloontemp.png" },
 
     { name: "collision_tiles", type: "image", src: "data/collision_tiles.png" },
 
