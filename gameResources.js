@@ -17,5 +17,11 @@ var gameResources =
     { name: "intro_radmars1", type: "image", src: "data/intro_radmars1.png" },
     { name: "intro_radmars2", type: "image", src: "data/intro_radmars2.png" },
 
+    { name: "player", type: "image", src: "data/player.png" },
+
+    { name: "collision_tiles", type: "image", src: "data/collision_tiles.png" },
+
+    { name: "testlevel", type: "tmx", src: "data/testlevel.tmx" },
+
     { name: "radmarslogo", type: "audio", src: "data/", channels : 2 }
 ];

@@ -27,14 +27,37 @@ var jsApp =
     loaded: function()
     {
         me.state.set( me.state.INTRO, new RadmarsScreen() );
+        me.state.set( me.state.PLAY, new PlayScreen() );
 
         me.state.transition( "fade", "#000000", 150 );
 
-        me.debug.renderHitBox = false;
+        me.entityPool.add( "player", Player );
 
-        me.state.change( me.state.INTRO );
+        me.debug.renderHitBox = true;
+
+        me.state.change( me.state.PLAY );
     }
 }
+
+var PlayScreen = me.ScreenObject.extend(
+{
+    init: function()
+    {
+
+    },
+
+    // this will be called on state change -> this
+    onResetEvent: function()
+    {
+        me.levelDirector.loadLevel( "testlevel" );
+    },
+
+    onDestroyEvent: function()
+    {
+        me.game.disableHUD();
+        me.audio.stopTrack();
+    }
+});
 
 var RadmarsScreen = me.ScreenObject.extend({
     init: function() {
