@@ -12,7 +12,7 @@ var Player = me.ObjectEntity.extend(
    {
        this.parent( x, y, settings );
 
-       this.updateColRect( 36, 72, -1 );
+       this.updateColRect( 3, 138, 39, 96 );
 
        this.setVelocity( 5.0, 11.0 );
        this.origGravity = 0.4;
@@ -20,6 +20,15 @@ var Player = me.ObjectEntity.extend(
        this.setFriction( 0.2, 0.1 );
 
        this.collidable = true;
+
+       this.addAnimation( "idle", [ 0 ] );
+       this.addAnimation( "jump", [ 1 ] );
+       this.addAnimation( "fall", [ 2 ] );
+       this.addAnimation( "run", [ 3, 4, 5, 6 ] );
+       this.addAnimation( "attack", [ 7 ] );
+       this.addAnimation( "wallstuck", [ 8 ] );
+       this.addAnimation( "buttstomp", [ 9 ] );
+       this.addAnimation( "impact", [ 10 ] );
 
        // abilities
        this.haveDoubleJump = true;
@@ -35,6 +44,7 @@ var Player = me.ObjectEntity.extend(
        this.buttStomped = false;
 
        this.fallCounter = 0;
+       this.impactCounter = 0;
 
        this.hp = 1;
 
@@ -94,7 +104,7 @@ var Player = me.ObjectEntity.extend(
             if ( this.haveWallStick )
             {
                 console.log( "wallstuck" );
-                this.wallStuck = true;
+                //this.wallStuck = true;
                 //this.gravity = 0.0;
             }
         }
@@ -113,7 +123,7 @@ var Player = me.ObjectEntity.extend(
         }
         else if ( envRes.y < 0 )
         {
-            console.log( "ceiling?" );
+            //console.log( "ceiling?" );
         }
         else if ( this.falling )
         {
@@ -135,7 +145,6 @@ var Player = me.ObjectEntity.extend(
             else if ( colRes.obj.type == "spikes" )
             {
                 this.vel.y = 0;
-                this.vel.x = 0;
                 if ( colRes.y > 0 )
                 {
                     this.hit( colRes.obj.type );
@@ -151,6 +160,46 @@ var Player = me.ObjectEntity.extend(
                 }
             }
         }
+
+        // update animation
+
+        // force impact frame to stay for a few frames
+        if ( this.isCurrentAnimation( "buttstomp" ) && !this.falling )
+        {
+            this.impactCounter = 10;
+        }
+
+        if ( this.impactCounter > 0 )
+        {
+            this.setCurrentAnimation( "impact" );
+        }
+        else if ( this.wallStuck )
+        {
+            this.setCurrentAnimation( "wallstuck" );
+        }
+        else if ( this.buttStomped )
+        {
+            this.setCurrentAnimation( "buttstomp" );
+        }
+        else if ( this.jumping )
+        {
+            this.setCurrentAnimation( "jump" );
+        }
+        else if ( this.falling )
+        {
+            this.setCurrentAnimation( "fall" );
+        }
+        else if ( me.input.isKeyPressed( "left" ) ||
+            me.input.isKeyPressed( "right") )
+        {
+            this.setCurrentAnimation( "run" );
+        }
+        else
+        {
+            this.setCurrentAnimation( "idle" );
+        }
+
+        if ( this.impactCounter > 0 ) --this.impactCounter;
 
         this.parent( this );
         return true;
