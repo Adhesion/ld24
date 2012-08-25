@@ -26,6 +26,10 @@ var gameResources =
     { name: "collision_tiles", type: "image", src: "data/collision_tiles.png" },
 
     { name: "testlevel", type: "tmx", src: "data/testlevel.tmx" },
+    { name: "level1", type: "tmx", src: "data/level1.tmx" },
+    { name: "level2", type: "tmx", src: "data/level2.tmx" },
+    { name: "level3", type: "tmx", src: "data/level3.tmx" },
+    { name: "level4", type: "tmx", src: "data/level4.tmx" },
 
     { name: "radmarslogo", type: "audio", src: "data/", channels : 2 }
 ];
