@@ -19,6 +19,8 @@ var Player = me.ObjectEntity.extend(
        this.gravity = this.origGravity;
        this.setFriction( 0.2, 0.1 );
 
+       this.wallStuckGravity = 0.0;
+
        this.collidable = true;
 
        this.animationspeed = 4;
@@ -43,6 +45,7 @@ var Player = me.ObjectEntity.extend(
        this.doubleJumped = false;
        this.rocketJumped = false;
        this.wallStuck = false;
+       this.wallStuckDir = 0.0;
        this.buttStomped = false;
 
        this.fallCounter = 0;
@@ -53,7 +56,10 @@ var Player = me.ObjectEntity.extend(
        this.centerOffsetX = 72;
        this.centerOffsetY = 72;
 
-       me.game.viewport.follow( this.pos, me.game.viewport.AXIS.BOTH );
+       this.followPos = new me.Vector2d( this.pos.x + this.centerOffsetX,
+           this.pos.y + this.centerOffsetY );
+
+       me.game.viewport.follow( this.followPos, me.game.viewport.AXIS.BOTH );
        me.game.viewport.setDeadzone( me.game.viewport.width / 10, 1 );
 
        me.input.bindKey( me.input.KEY.LEFT, "left" );
@@ -106,8 +112,11 @@ var Player = me.ObjectEntity.extend(
             if ( this.haveWallStick )
             {
                 console.log( "wallstuck" );
-                //this.wallStuck = true;
-                //this.gravity = 0.0;
+                this.wallStuck = true;
+                this.wallStuckDir = envRes.x;
+                this.gravity = this.wallStuckGravity;
+                this.vel.y = 0.0;
+                this.fallCounter = 0;
             }
         }
         else if ( envRes.y > 0 )
@@ -203,12 +212,29 @@ var Player = me.ObjectEntity.extend(
 
         if ( this.impactCounter > 0 ) --this.impactCounter;
 
+        // update cam follow position
+        this.followPos.x = this.pos.x + this.centerOffsetX;
+        this.followPos.y = this.pos.y + this.centerOffsetY;
+
         this.parent( this );
         return true;
     },
 
     checkInput: function()
     {
+        if ( this.wallStuck )
+        {
+            if ( me.input.isKeyPressed( "jump" ) )
+            {
+                this.gravity = this.origGravity;
+                this.doJump();
+                this.wallStuck = false;
+                this.vel.x = this.wallStuckDir * -10.0;
+                this.vel.y = -20.0;
+            }
+            return;
+        }
+
         if ( me.input.isKeyPressed( "left" ) )
         {
             this.doWalk( true );
@@ -220,25 +246,16 @@ var Player = me.ObjectEntity.extend(
 
         if ( me.input.isKeyPressed( "jump" ) )
         {
-            if ( this.wallStuck )
+            if ( !this.jumping && !this.falling )
             {
-                this.gravity = this.origGravity;
                 this.doJump();
-                this.wallStuck = false;
             }
-            else
+            // double jump
+            else if ( this.haveDoubleJump && !this.doubleJumped )
             {
-                if ( !this.jumping && !this.falling )
-                {
-                    this.doJump();
-                }
-                // double jump
-                else if ( this.haveDoubleJump && !this.doubleJumped )
-                {
-                    console.log( "double jump" );
-                    this.forceJump();
-                    this.doubleJumped = true;
-                }
+                console.log( "double jump" );
+                this.forceJump();
+                this.doubleJumped = true;
             }
         }
 
