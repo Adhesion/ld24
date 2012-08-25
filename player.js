@@ -14,7 +14,8 @@ var Player = me.ObjectEntity.extend(
 
        this.updateColRect( 44, 88, 59, 76 );
 
-       this.setVelocity( 5.0, 11.0 );
+       this.origVelocity = new me.Vector2d( 5.0, 11.0 );
+       this.setVelocity( this.origVelocity.x, this.origVelocity.y );
        this.origGravity = 0.4;
        this.gravity = this.origGravity;
        this.setFriction( 0.2, 0.1 );
@@ -124,7 +125,8 @@ var Player = me.ObjectEntity.extend(
                 this.wallStuckDir = envRes.x;
                 this.gravity = this.wallStuckGravity;
                 this.vel.y = 0.0;
-                this.fallCounter = 0;
+                this.resetFall();
+                this.buttStomped = false;
             }
         }
         else if ( envRes.y > 0 )
@@ -139,7 +141,7 @@ var Player = me.ObjectEntity.extend(
             this.rocketJumped = false;
             this.doubleJumped = false;
             this.buttStomped = false;
-            this.fallCounter = 0;
+            this.resetFall();
         }
         else if ( envRes.y < 0 )
         {
@@ -187,6 +189,8 @@ var Player = me.ObjectEntity.extend(
         if ( this.isCurrentAnimation( "buttstomp" ) && !this.falling )
         {
             this.impactCounter = 10;
+            this.spawnParticle( this.pos.x, this.pos.y, "buttstompimpact", 144,
+                [ 0, 1, 2, 3, 4 ], 3, this.z - 1 );
         }
 
         if ( this.impactCounter > 0 )
@@ -230,6 +234,12 @@ var Player = me.ObjectEntity.extend(
         return true;
     },
 
+    resetFall: function()
+    {
+        this.fallCounter = 0;
+        this.setVelocity( this.origVelocity.x, this.origVelocity.y );
+    },
+
     checkInput: function()
     {
         if ( this.wallStuck )
@@ -271,6 +281,8 @@ var Player = me.ObjectEntity.extend(
                 console.log( "double jump" );
                 this.forceJump();
                 this.doubleJumped = true;
+                this.spawnParticle( this.pos.x, this.pos.y, "doublejump", 144,
+                    [ 0, 1, 2, 3, 4, 5 ], 3, this.z - 1 );
             }
         }
 
@@ -279,16 +291,39 @@ var Player = me.ObjectEntity.extend(
         {
             if ( !this.rocketJumped )
             {
-                this.vel.y = -35.0;
+                // bit of a hack here, have to set vel to allow vel to go higher
+                // (maxvel not working?)
+                // gets reset on fall/wallstick
+                this.setVelocity( 5.0, 15.0 );
+                this.vel.y = -15.0;
                 this.rocketJumped = true;
+                this.spawnParticle( this.pos.x, this.pos.y + 25, "explode", 144,
+                    [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z - 1 );
             }
         }
 
         if ( me.input.isKeyPressed( "buttstomp" ) && this.haveButtStomp &&
             !this.buttStomped )
         {
-            this.vel.y = 30.0;
+            // see above
+            this.setVelocity( 5.0, 15.0 );
+            this.vel.y = 15.0;
             this.buttStomped = true;
         }
+    },
+
+    spawnParticle: function( x, y, sprite, spritewidth, frames, speed, z )
+    {
+        var settings = new Object();
+        settings.image = sprite;
+        settings.spritewidth = spritewidth;
+
+        var particle = new me.ObjectEntity( x, y, settings );
+        particle.animationspeed = speed;
+        particle.addAnimation( "play", frames );
+        particle.setCurrentAnimation( "play",
+            function() { me.game.remove( particle ) } );
+        me.game.add( particle, z );
+        me.game.sort();
     }
 });
