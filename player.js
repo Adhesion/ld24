@@ -12,7 +12,7 @@ var Player = me.ObjectEntity.extend(
    {
        this.parent( x, y, settings );
 
-       this.updateColRect( 3, 138, 39, 96 );
+       this.updateColRect( 44, 88, 59, 76 );
 
        this.setVelocity( 5.0, 11.0 );
        this.origGravity = 0.4;
@@ -20,6 +20,8 @@ var Player = me.ObjectEntity.extend(
        this.setFriction( 0.2, 0.1 );
 
        this.collidable = true;
+
+       this.animationspeed = 3;
 
        this.addAnimation( "idle", [ 0 ] );
        this.addAnimation( "jump", [ 1 ] );

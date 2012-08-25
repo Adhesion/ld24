@@ -37,7 +37,7 @@ var jsApp =
         me.entityPool.add( "spikes", Spikes );
         me.entityPool.add( "balloon", Balloon );
 
-        me.debug.renderHitBox = true;
+        me.debug.renderHitBox = false;
 
         me.state.change( me.state.PLAY );
     }
