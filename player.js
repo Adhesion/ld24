@@ -19,6 +19,8 @@ var Player = me.ObjectEntity.extend(
        this.gravity = this.origGravity;
        this.setFriction( 0.2, 0.1 );
 
+       this.collidable = true;
+
        // abilities
        this.haveDoubleJump = true;
        this.haveRocketJump = true;
@@ -29,9 +31,14 @@ var Player = me.ObjectEntity.extend(
        this.doubleJumped = false;
        this.rocketJumped = false;
        this.wallStuck = false;
-       this.buttStomping = false;
+       this.buttStomped = false;
 
        this.fallCounter = 0;
+
+       this.hp = 1;
+
+       this.centerOffsetX = 72;
+       this.centerOffsetY = 72;
 
        me.game.viewport.follow( this.pos, me.game.viewport.AXIS.BOTH );
        me.game.viewport.setDeadzone( me.game.viewport.width / 10, 1 );
@@ -43,11 +50,28 @@ var Player = me.ObjectEntity.extend(
        me.input.bindKey( me.input.KEY.V, "buttstomp" );
        me.input.bindKey( me.input.KEY.B, "attack" );
        me.input.bindKey( me.input.KEY.N, "shield" );
+
+       me.game.player = this;
    },
 
-    die: function()
+    getCenter: function()
     {
-        console.log( "player died" );
+        return new me.Vector2d( this.pos.x + this.centerOffsetX,
+            this.pos.y + this.centerOffsetY );
+    },
+
+    hit: function( type )
+    {
+        this.hp--;
+        if ( this.hp == 0 )
+        {
+            this.flicker( 90, this.die( type ) );
+        }
+    },
+
+    die: function( type )
+    {
+        console.log( "player died type %s", type );
     },
 
     update: function()
@@ -77,19 +101,25 @@ var Player = me.ObjectEntity.extend(
             //console.log( "floor?" );
             this.rocketJumped = false;
             this.doubleJumped = false;
-            this.buttStomping = false;
+            this.buttStomped = false;
         }
         else if ( envRes.y < 0 )
         {
             console.log( "ceiling?" );
         }
 
-        if ( this.vel.x != 0 || this.vel.y != 0 )
+        var colRes = me.game.collide( this );
+        if ( colRes )
         {
-            this.parent( this );
-            return true;
+            if ( colRes.obj.type == "rock" )
+            {
+                console.log( "rock collision" );
+                this.hit( colRes.obj.type );
+            }
         }
-        return false;
+
+        this.parent( this );
+        return true;
     },
 
     checkInput: function()
@@ -126,20 +156,22 @@ var Player = me.ObjectEntity.extend(
                 }
             }
         }
+
         if ( me.input.isKeyPressed( "rocket" ) && this.haveRocketJump &&
             !this.rocketJumped )
         {
             if ( !this.rocketJumped )
             {
-                this.vel.y = -30.0;
+                this.vel.y = -35.0;
                 this.rocketJumped = true;
             }
         }
+
         if ( me.input.isKeyPressed( "buttstomp" ) && this.haveButtStomp &&
-            !this.buttStomping )
+            !this.buttStomped )
         {
-            this.vel.y = 25.0;
-            this.buttStomping = true;
+            this.vel.y = 30.0;
+            this.buttStomped = true;
         }
     }
 });

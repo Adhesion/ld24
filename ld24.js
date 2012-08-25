@@ -33,6 +33,9 @@ var jsApp =
 
         me.entityPool.add( "player", Player );
 
+        me.entityPool.add( "rock", Rock );
+        me.entityPool.add( "spikes", Spikes );
+
         me.debug.renderHitBox = true;
 
         me.state.change( me.state.PLAY );

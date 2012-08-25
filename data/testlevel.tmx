@@ -44,5 +44,17 @@
     <property name="spritewidth" value="144"/>
    </properties>
   </object>
+  <object name="rock" x="466" y="4252" width="57" height="51">
+   <properties>
+    <property name="image" value="rock"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
+  <object name="spikes" x="753" y="4482" width="74" height="62">
+   <properties>
+    <property name="image" value="spikes"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

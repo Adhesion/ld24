@@ -19,6 +19,9 @@ var gameResources =
 
     { name: "player", type: "image", src: "data/player.png" },
 
+    { name: "rock", type: "image", src: "data/rocktemp.png" },
+    { name: "spikes", type: "image", src: "data/spiketemp.png" },
+
     { name: "collision_tiles", type: "image", src: "data/collision_tiles.png" },
 
     { name: "testlevel", type: "tmx", src: "data/testlevel.tmx" },
