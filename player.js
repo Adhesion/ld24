@@ -210,7 +210,7 @@ var Player = me.ObjectEntity.extend(
             this.setCurrentAnimation( "fall" );
         }
         else if ( me.input.isKeyPressed( "left" ) ||
-            me.input.isKeyPressed( "right") )
+            me.input.isKeyPressed( "right" ) )
         {
             this.setCurrentAnimation( "run" );
         }
@@ -237,10 +237,10 @@ var Player = me.ObjectEntity.extend(
             if ( me.input.isKeyPressed( "jump" ) )
             {
                 this.gravity = this.origGravity;
-                this.doJump();
+                this.forceJump();
                 this.wallStuck = false;
                 this.vel.x = this.wallStuckDir * -10.0;
-                this.vel.y = -20.0;
+                //this.vel.y = -20.0;
                 this.wallStuckCounter = 15;
             }
             return;
