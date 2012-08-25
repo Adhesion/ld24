@@ -21,7 +21,7 @@ var Player = me.ObjectEntity.extend(
 
        this.collidable = true;
 
-       this.animationspeed = 3;
+       this.animationspeed = 4;
 
        this.addAnimation( "idle", [ 0 ] );
        this.addAnimation( "jump", [ 1 ] );
