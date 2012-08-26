@@ -51,10 +51,11 @@
     <property name="to" value="level4"/>
    </properties>
   </object>
-  <object name="enemy" x="1933" y="1280" width="63" height="45">
+  <object name="enemy" x="1920" y="1243" width="96" height="96">
    <properties>
-    <property name="image" value="dude01"/>
-    <property name="spritewidth" value="48"/>
+    <property name="direction" value="1"/>
+    <property name="image" value="enemy"/>
+    <property name="spritewidth" value="96"/>
    </properties>
   </object>
  </objectgroup>

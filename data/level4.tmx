@@ -51,40 +51,39 @@
     <property name="to" value="level5"/>
    </properties>
   </object>
-  <object name="enemy" x="662" y="1424" width="63" height="45">
+  <object name="enemy" x="620" y="1394" width="96" height="96">
    <properties>
-    <property name="image" value="dude01"/>
-    <property name="spritewidth" value="48"/>
+    <property name="direction" value="1"/>
+    <property name="image" value="enemy"/>
+    <property name="spritewidth" value="96"/>
    </properties>
   </object>
-  <object name="enemy" x="950" y="1421" width="63" height="45">
+  <object name="enemy" x="912" y="1392" width="96" height="96">
    <properties>
-    <property name="image" value="dude01"/>
-    <property name="spritewidth" value="48"/>
+    <property name="direction" value="1"/>
+    <property name="image" value="enemy"/>
+    <property name="spritewidth" value="96"/>
    </properties>
   </object>
-  <object name="enemy" x="2135" y="515" width="63" height="45">
+  <object name="enemy" x="1724" y="474" width="96" height="96">
    <properties>
-    <property name="image" value="dude01"/>
-    <property name="spritewidth" value="48"/>
+    <property name="direction" value="1"/>
+    <property name="image" value="enemy"/>
+    <property name="spritewidth" value="96"/>
    </properties>
   </object>
-  <object name="enemy" x="1750" y="512" width="63" height="45">
+  <object name="enemy" x="1916" y="574" width="96" height="96">
    <properties>
-    <property name="image" value="dude01"/>
-    <property name="spritewidth" value="48"/>
+    <property name="direction" value="1"/>
+    <property name="image" value="enemy"/>
+    <property name="spritewidth" value="96"/>
    </properties>
   </object>
-  <object name="enemy" x="1875" y="621" width="63" height="45">
+  <object name="enemy" x="2114" y="478" width="96" height="96">
    <properties>
-    <property name="image" value="dude01"/>
-    <property name="spritewidth" value="48"/>
-   </properties>
-  </object>
-  <object name="enemy" x="1998" y="623" width="63" height="45">
-   <properties>
-    <property name="image" value="dude01"/>
-    <property name="spritewidth" value="48"/>
+    <property name="direction" value="1"/>
+    <property name="image" value="enemy"/>
+    <property name="spritewidth" value="96"/>
    </properties>
   </object>
  </objectgroup>
