@@ -51,14 +51,7 @@
     <property name="to" value="level5"/>
    </properties>
   </object>
-  <object name="enemy" x="620" y="1394" width="96" height="96">
-   <properties>
-    <property name="direction" value="1"/>
-    <property name="image" value="enemy"/>
-    <property name="spritewidth" value="96"/>
-   </properties>
-  </object>
-  <object name="enemy" x="912" y="1392" width="96" height="96">
+  <object name="enemy" x="787" y="1391" width="96" height="96">
    <properties>
     <property name="direction" value="1"/>
     <property name="image" value="enemy"/>
