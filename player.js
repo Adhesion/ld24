@@ -109,33 +109,36 @@ var Player = me.ObjectEntity.extend(
     hit: function( type )
     {
         this.hp--;
-        if ( this.hp == 0 )
-        {
-            this.flicker( 90, function() {
+        if ( this.hp == 0 ) {
+            this.setCurrentAnimation( "die" );
+            this.flicker( 90, function () {
                 this.die( type );
             });
         }
-        else
-        {
-            this.shield.flicker( 90,
-                function()
-                {
-                    me.game.player.shield = null;
-                    //me.game.player.shield.die();
-                    me.game.remove( this );
-                    me.game.sort();
-                } );
+        else if( this.shield ) {
+            this.shield.flicker( 90, function() {
+                me.game.player.shield = null;
+                me.game.remove( this );
+                me.game.sort();
+            });
         }
     },
 
     die: function( type )
     {
         console.log( "player died type %s", type );
+        me.game.viewport.fadeIn( '#000000', 1000, function() {
+            me.levelDirector.reloadLevel();
+            me.state.current().changeLevel( );
+        });
     },
 
     update: function()
     {
-        this.checkInput();
+
+        if( this.hp > 0 ) {
+            this.checkInput();
+        }
 
         if ( this.falling )
         {
@@ -231,7 +234,7 @@ var Player = me.ObjectEntity.extend(
             }
         }
         else if( this.swimming ) {
-			this.animationspeed = 4;
+            this.animationspeed = 4;
             this.swimming = false;
             this.gravity = this.origGravity;
         }
@@ -245,7 +248,11 @@ var Player = me.ObjectEntity.extend(
                 [ 0, 1, 2, 3, 4 ], 3, this.z - 1 );
         }
 
-        if ( this.impactCounter > 0 )
+        if( this.hp <= 0)
+        {
+            this.setCurrentAnimation( "die" );
+        }
+        else if ( this.impactCounter > 0 )
         {
             this.setCurrentAnimation( "impact" );
         }
@@ -270,12 +277,12 @@ var Player = me.ObjectEntity.extend(
             || ( this.swimming && ( me.input.isKeyPressed( "up" ) || me.input.isKeyPressed( "down" ) ) ) )
         {
             if(this.swimming) this.setCurrentAnimation( "swim" );
-			else this.setCurrentAnimation( "run" );
+            else this.setCurrentAnimation( "run" );
         }
         else
         {
             if(this.swimming) this.setCurrentAnimation( "swim_idle" );
-			else this.setCurrentAnimation( "idle" );
+            else this.setCurrentAnimation( "idle" );
         }
 
         if ( this.impactCounter > 0 ) --this.impactCounter;

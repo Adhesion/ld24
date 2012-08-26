@@ -77,15 +77,14 @@ var PlayScreen = me.ScreenObject.extend(
     },
 
     /** Update the level display. */
-    changeLevel: function( l )
+    changeLevel: function( )
     {
         this.levelDisplay.reset("levelDisplay");
-        return l;
     },
 
     startLevel: function( level )
     {
-        this.changeLevel( level );
+        this.changeLevel( );
         me.levelDirector.loadLevel( level );
         me.game.sort();
     },
@@ -174,7 +173,7 @@ var LevelChanger = me.LevelEntity.extend({
     /** Dirty hack. I don't think they intended to expose onFadeComplete. */
     onFadeComplete : function () {
         this.parent();
-        me.state.current().changeLevel( this.gotolevel );
+        me.state.current().changeLevel( );
     },
 
 
