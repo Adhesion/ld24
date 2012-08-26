@@ -53,7 +53,7 @@ var PlayScreen = me.ScreenObject.extend(
     // this will be called on state change -> this
     onResetEvent: function()
     {
-        me.levelDirector.loadLevel( "level3" );
+        me.levelDirector.loadLevel( "level1" );
     },
 
     onDestroyEvent: function()

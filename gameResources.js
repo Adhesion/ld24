@@ -34,6 +34,7 @@ var gameResources =
     { name: "level2", type: "tmx", src: "data/level2.tmx" },
     { name: "level3", type: "tmx", src: "data/level3.tmx" },
     { name: "level4", type: "tmx", src: "data/level4.tmx" },
+    { name: "level5", type: "tmx", src: "data/level5.tmx" },
 
     { name: "radmarslogo", type: "audio", src: "data/", channels : 2 }
 ];
