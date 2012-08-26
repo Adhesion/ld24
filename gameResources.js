@@ -30,6 +30,7 @@ var gameResources =
     { name: "balloon", type: "image", src: "data/balloontemp.png" },
 
     { name: "collision_tiles", type: "image", src: "data/collision_tiles.png" },
+    { name: "maptile", type: "image", src: "data/maptile.png" },
 
     { name: "testlevel", type: "tmx", src: "data/testlevel.tmx" },
     { name: "level1", type: "tmx", src: "data/level1.tmx" },
