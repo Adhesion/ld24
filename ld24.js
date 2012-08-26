@@ -47,7 +47,7 @@ var PlayScreen = me.ScreenObject.extend(
 {
     init: function()
     {
-
+        me.entityPool.add("LevelChanger", LevelChanger);
     },
 
     restartLevel: function( level ) {
@@ -59,7 +59,7 @@ var PlayScreen = me.ScreenObject.extend(
     // this will be called on state change -> this
     onResetEvent: function()
     {
-		this.restartLevel( location.hash.substr(1) );
+        this.restartLevel( location.hash.substr(1) );
     },
 
     onDestroyEvent: function()
@@ -129,6 +129,24 @@ var RadmarsScreen = me.ScreenObject.extend({
         me.audio.stopTrack();
     }
 });
+
+var LevelChanger = me.LevelEntity.extend({
+    init: function( x, y, settings ) {
+        this.parent( x, y, settings );
+    },
+
+    goTo: function ( level ) {
+        /*
+        if ( this.gotolevel == "gameover" ) {
+          me.state.change( me.state.GAMEOVER );
+          return;
+        }
+        */
+        this.parent( level );
+        // me.state.current().changeLevel( this.gotolevel );
+    }
+});
+
 
 window.onReady( function()
 {
