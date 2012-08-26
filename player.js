@@ -111,7 +111,9 @@ var Player = me.ObjectEntity.extend(
         this.hp--;
         if ( this.hp == 0 )
         {
-            this.flicker( 90, this.die( type ) );
+            this.flicker( 90, function() {
+                this.die( type );
+            });
         }
         else
         {

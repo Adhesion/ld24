@@ -34,33 +34,27 @@ var Enemy = me.ObjectEntity.extend({
 
 	die: function() {
 		this.alive = false;
-		me.game.remove( this );
+		this.collidable = false;
+		this.setCurrentAnimation( "die" );
+		this.setVelocity( 0, 0 );
+		this.flicker( 90, function() {
+			me.game.remove( this );
+		});
 	},
 
 	onCollision: function( res, obj ) {
 		this.collide( res, obj );
 	},
 
-	checkCollision: function( obj ) {
-		// collision optimization - this may not actually be necessary if we don't need to check enemy collision against something else
-		if ( this.type == obj.type ) {
-			this.changeDirection( ! this.direction );
-			return null;
-		}
-		return this.parent( obj );
-	},
-
 	collide: function( res, obj ) {
 		if ( obj == me.game.player ) {
-			/*
-			 if ( res.y > 0 ) {
-				// kill enemies on stomp? may change later
+			 if ( res.y > 0 && obj.buttStomped) {
 				this.die();
-				me.game.kills++;
-				this.spawnParticle( this.pos.x, this.pos.y, "bloodsplat", 48, [ 0, 1, 2, 3, 4, 5, 6 ], 4 );
-				me.audio.play( "stompdeath" );
 			}
-			*/
+			else {
+				obj.hit("enemy");
+				this.die();
+			}
 		}
 	},
 
@@ -70,12 +64,14 @@ var Enemy = me.ObjectEntity.extend({
 		}
 
 		this.parent();
+
 		this.doWalk( this.direction );
 
 		var collision = this.updateMovement();
 		if( collision.x ) {
 			this.changeDirection( ! this.direction );
 		}
+
 		return false;
 	}
 });
