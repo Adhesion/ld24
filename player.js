@@ -359,6 +359,7 @@ var Player = me.ObjectEntity.extend(
             else if ( this.haveDoubleJump && !this.doubleJumped )
             {
                 console.log( "double jump" );
+                this.resetFall();
                 this.forceJump();
                 this.doubleJumped = true;
                 this.spawnParticle( this.pos.x, this.pos.y, "doublejump", 144,
@@ -374,6 +375,7 @@ var Player = me.ObjectEntity.extend(
                 // bit of a hack here, have to set vel to allow vel to go higher
                 // (maxvel not working?)
                 // gets reset on fall/wallstick
+                this.resetFall();
                 this.setVelocity( 5.0, 15.0 );
                 this.vel.y = -15.0;
                 this.rocketJumped = true;
