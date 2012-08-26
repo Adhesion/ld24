@@ -50,6 +50,11 @@ var jsApp =
 
 var PlayScreen = me.ScreenObject.extend(
 {
+
+    /** Session persistence for unlocked abilities. */
+    abilities: {
+    },
+
     init: function()
     {
         this.storyDisplay = new StoryDisplay();
@@ -61,7 +66,6 @@ var PlayScreen = me.ScreenObject.extend(
         this.storyDisplay.setText( 'storyDisplay', text );
     },
 
-
     getLevel: function()
     {
         return this.parseLevel( me.levelDirector.getCurrentLevelId() );
@@ -71,8 +75,6 @@ var PlayScreen = me.ScreenObject.extend(
     {
         var re = /level(\d+)/;
         var results = re.exec( input );
-        if( ! results )
-            console.log(" no results ");
         return results[1];
     },
 
@@ -179,6 +181,13 @@ var LevelChanger = me.LevelEntity.extend({
 
     goTo: function ( level ) {
         this.parent( level );
+
+        // When we swap levels the correct way, we should 0 out any skills we've
+        // learned.
+        for( var skill in me.state.current().abilities  ) {
+            me.state.current().abilities[skill] = false;
+        }
+
         /*
         if ( this.gotolevel == "gameover" ) {
           me.state.change( me.state.GAMEOVER );

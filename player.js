@@ -36,16 +36,22 @@ var Player = me.ObjectEntity.extend(
        this.addAnimation( "buttstomp", [ 13 ] );
        this.addAnimation( "impact", [ 14 ] );
        this.addAnimation( "die", [ 15 ] );
-	   this.addAnimation( "swim_idle", [ 16, 17, 18, 19 ] );
-	   this.addAnimation( "swim", [ 20, 21, 22, 23 ] );
-	   
+       this.addAnimation( "swim_idle", [ 16, 17, 18, 19 ] );
+       this.addAnimation( "swim", [ 20, 21, 22, 23 ] );
+
+
+       function unlocked( skill ) {
+           var state = me.state.current().abilities[skill];
+           return state;
+       }
 
        // abilities
-       this.haveDoubleJump = true;
-       this.haveRocketJump = true;
-       this.haveButtStomp = true;
-       this.haveWallStick = true;
-       this.spikeHat = true;
+       this.haveDoubleJump = unlocked('doubleJump');
+       this.haveRocketJump = unlocked('rocketJump');
+       this.haveButtStomp = unlocked('buttStomp');
+       this.haveWallStick = unlocked('wallStick');
+       this.spikeHat = unlocked('spikeHat');
+       this.shield = unlocked('shield');
 
        //var shieldsettings = new Object();
        //shieldsettings.image = "shield";
@@ -58,8 +64,10 @@ var Player = me.ObjectEntity.extend(
        //this.shield.addAnimation( "play", frames );
        //this.shield.setCurrentAnimation( "play" );
 
-       this.addShield( this.pos.x, this.pos.y, "shield", 144,
-           [ 0, 1, 2, 3, 4, 5 ], 5, 5 );
+       if( this.shield ) {
+           this.addShield( this.pos.x, this.pos.y, "shield", 144,
+               [ 0, 1, 2, 3, 4, 5 ], 5, 5 );
+       }
 
        // mobility stuff
        this.doubleJumped = false;
@@ -126,6 +134,14 @@ var Player = me.ObjectEntity.extend(
 
     die: function( type )
     {
+        function unlock( skill ) {
+            me.state.current().abilities[skill] = true;
+        }
+
+        if( type == 'fall' ) {
+            unlock('doubleJump');
+        }
+
         console.log( "player died type %s", type );
         me.game.viewport.fadeIn( '#000000', 1000, function() {
             me.levelDirector.reloadLevel();
@@ -158,11 +174,6 @@ var Player = me.ObjectEntity.extend(
             !envRes.xprop.isSlope
         )
         {
-            if ( envRes.xtile.isCollisionMap )
-            {
-                console.log( "colmap" );
-            }
-            //console.log( "wallstuck" );
             this.wallStuck = true;
             this.wallStuckDir = envRes.x;
             this.gravity = this.wallStuckGravity;
@@ -172,13 +183,10 @@ var Player = me.ObjectEntity.extend(
         }
         else if ( envRes.y > 0 )
         {
-            //console.log( envRes.tileId );
             if ( this.fallCounter > 130 )
             {
                 this.hit( "fall" );
-                console.log( "falldeath" );
             }
-            //console.log( "floor?" );
             this.rocketJumped = false;
             this.doubleJumped = false;
             this.buttStomped = false;
@@ -377,7 +385,7 @@ var Player = me.ObjectEntity.extend(
             // double jump
             else if ( this.haveDoubleJump && !this.doubleJumped )
             {
-				this.setCurrentAnimation( "jump_extra" );
+                this.setCurrentAnimation( "jump_extra" );
                 console.log( "double jump" );
                 this.resetFall();
                 this.forceJump();
@@ -395,7 +403,7 @@ var Player = me.ObjectEntity.extend(
                 // bit of a hack here, have to set vel to allow vel to go higher
                 // (maxvel not working?)
                 // gets reset on fall/wallstick
-				this.setCurrentAnimation( "jump_extra" );
+                this.setCurrentAnimation( "jump_extra" );
                 this.resetFall();
                 this.setVelocity( 5.0, 15.0 );
                 this.vel.y = -15.0;
