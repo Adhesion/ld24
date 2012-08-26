@@ -18,6 +18,7 @@ var gameResources =
     { name: "intro_radmars2", type: "image", src: "data/intro_radmars2.png" },
 
     { name: "player", type: "image", src: "data/player.png" },
+    { name: "enemy", type: "image", src: "data/baddie.png" },
 
     { name: "shield", type: "image", src: "data/shield.png" },
     { name: "buttstompimpact", type: "image", src: "data/buttstompimpact.png" },

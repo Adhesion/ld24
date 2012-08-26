@@ -32,6 +32,7 @@ var jsApp =
         me.state.transition( "fade", "#000000", 150 );
 
         me.entityPool.add( "player", Player );
+        me.entityPool.add( "enemy", Enemy );
 
         me.entityPool.add( "water", Water );
         me.entityPool.add( "rock", Rock );
