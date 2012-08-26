@@ -32,14 +32,18 @@ var jsApp =
         me.state.transition( "fade", "#000000", 150 );
 
         me.entityPool.add( "player", Player );
+        me.entityPool.add( "enemy", Enemy );
 
         me.entityPool.add( "water", Water );
         me.entityPool.add( "rock", Rock );
         me.entityPool.add( "spikes", Spikes );
         me.entityPool.add( "balloon", Balloon );
+        me.entityPool.add( "StoryNode", StoryNode);
+        me.entityPool.add( "LevelChanger", LevelChanger);
 
         me.debug.renderHitBox = false;
 
+        // me.state.change( me.state.INTRO);
         me.state.change( me.state.PLAY );
     }
 }
@@ -48,17 +52,49 @@ var PlayScreen = me.ScreenObject.extend(
 {
     init: function()
     {
-        me.entityPool.add("LevelChanger", LevelChanger);
+        this.storyDisplay = new StoryDisplay();
+        this.levelDisplay = new LevelDisplay();
     },
 
-    restartLevel: function( level ) {
+    showStoryText: function( text )
+    {
+        this.storyDisplay.setText( 'storyDisplay', text );
+    },
+
+
+    getLevel: function()
+    {
+        return this.parseLevel( me.levelDirector.getCurrentLevelId() );
+    },
+
+    parseLevel: function( input )
+    {
+        var re = /level(\d+)/;
+        var results = re.exec( input );
+        if( ! results )
+            console.log(" no results ");
+        return results[1];
+    },
+
+    /** Update the level display. */
+    changeLevel: function( l )
+    {
+        this.levelDisplay.reset("levelDisplay");
+        return l;
+    },
+
+    startLevel: function( level )
+    {
+        this.changeLevel( level );
         me.levelDirector.loadLevel( level );
+        me.game.sort();
     },
 
     // this will be called on state change -> this
     onResetEvent: function()
     {
-        this.restartLevel( location.hash.substr(1) || "level1" );
+        me.game.addHUD( 0, 0, me.video.getWidth(), me.video.getHeight() );
+        this.startLevel( location.hash.substr(1) || "level1" );
     },
 
     onDestroyEvent: function()
@@ -129,23 +165,117 @@ var RadmarsScreen = me.ScreenObject.extend({
     }
 });
 
+/** WHen coliding with the end of the level do things to swap the levels. */
 var LevelChanger = me.LevelEntity.extend({
     init: function( x, y, settings ) {
         this.parent( x, y, settings );
     },
 
+    /** Dirty hack. I don't think they intended to expose onFadeComplete. */
+    onFadeComplete : function () {
+        this.parent();
+        me.state.current().changeLevel( this.gotolevel );
+    },
+
+
     goTo: function ( level ) {
+        this.parent( level );
         /*
         if ( this.gotolevel == "gameover" ) {
           me.state.change( me.state.GAMEOVER );
           return;
         }
         */
-        this.parent( level );
-        // me.state.current().changeLevel( this.gotolevel );
     }
 });
 
+var TemporaryDisplay = me.HUD_Item.extend({
+    init: function( x, y, settings ) {
+        settings = settings || {};
+        this.parent( x, y, settings );
+        this.font = settings.font || new me.BitmapFont( "32x32_font", 32 );
+        this.font.set("left", 1);
+    },
+
+    /** Adds the display and resets the object. After a 2000 ms timeout the
+     * object goes away. */
+    reset: function( item ) {
+        this.parent();
+        me.game.HUD.addItem( item, this );
+        window.setTimeout( function() {
+            me.game.HUD.removeItem( item );
+        }, 2000 );
+    },
+
+    /** This should be overwritten. */
+    getText: function() {
+        return '';
+    },
+
+    /** Draws the level display if the timer hasn't expired.
+     * TODO: Possible performance tweak would be to cache timer expire. */
+    draw: function( context, x, y ) {
+        this.font.draw(
+            context,
+            this.getText().toUpperCase(),
+            this.pos.x + x,
+            this.pos.y + y
+        );
+    }
+});
+
+var StoryDisplay = TemporaryDisplay.extend({
+
+    init: function() {
+        this.parent( 50, 100, {
+            font: new me.BitmapFont( "16x16_font", 16),
+        });
+        this.text = '';
+    },
+
+    setText: function( uiname, text ) {
+        this.reset( uiname );
+        this.text = text;
+    },
+
+    getText: function () {
+        return this.text;
+    }
+});
+
+var LevelDisplay = TemporaryDisplay.extend({
+    init: function( ) {
+        this.parent( 50, me.video.getHeight() *0.75, {
+            font: new me.BitmapFont( "64x64_font", 64),
+        } );
+    },
+    getText: function() {
+        return "LEVEL " + me.state.current().getLevel();
+    }
+});
+
+var StoryNode = me.InvisibleEntity.extend({
+    init: function( x, y, settings ) {
+        this.parent( x, y, settings );
+        this.text = settings.text;
+        this.toggled = false;
+    },
+
+    // only check collision with player, & only first time - prevents other stuff from hitting it & not other things (no multiple collision)
+    checkCollision: function( obj ) {
+        if ( obj == me.game.player && !this.toggled ) {
+            return this.parent( obj );
+        }
+        return null;
+    },
+
+    onCollision: function() {
+        if( ! this.toggled ) {
+            me.state.current().showStoryText( this.text );
+            this.toggled = true;
+        }
+    }
+});
 
 window.onReady( function()
 {

@@ -18,6 +18,7 @@ var gameResources =
     { name: "intro_radmars2", type: "image", src: "data/intro_radmars2.png" },
 
     { name: "player", type: "image", src: "data/player.png" },
+    { name: "enemy", type: "image", src: "data/baddie.png" },
 
     { name: "shield", type: "image", src: "data/shield.png" },
     { name: "buttstompimpact", type: "image", src: "data/buttstompimpact.png" },
@@ -29,6 +30,7 @@ var gameResources =
     { name: "balloon", type: "image", src: "data/balloontemp.png" },
 
     { name: "collision_tiles", type: "image", src: "data/collision_tiles.png" },
+    { name: "maptile", type: "image", src: "data/maptile.png" },
 
     { name: "testlevel", type: "tmx", src: "data/testlevel.tmx" },
     { name: "level1", type: "tmx", src: "data/level1.tmx" },
@@ -38,8 +40,14 @@ var gameResources =
     { name: "level5", type: "tmx", src: "data/level5.tmx" },
     { name: "level6", type: "tmx", src: "data/level6.tmx" },
     { name: "level7", type: "tmx", src: "data/level7.tmx" },
+    { name: "level8", type: "tmx", src: "data/level8.tmx" },
 
 
+
+
+    { name: "16x16_font", type: "image", src: "data/16x16_font.png" },
+    { name: "32x32_font", type: "image", src: "data/32x32_font.png" },
+    { name: "64x64_font", type: "image", src: "data/64x64_font.png" },
 
     { name: "radmarslogo", type: "audio", src: "data/", channels : 2 }
 ];
