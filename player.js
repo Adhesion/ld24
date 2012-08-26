@@ -51,7 +51,6 @@ var Player = me.ObjectEntity.extend(
        this.haveButtStomp = unlocked('buttStomp');
        this.haveWallStick = unlocked('wallStick');
        this.spikeHat = unlocked('spikeHat');
-       this.shield = unlocked('shield');
 
        //var shieldsettings = new Object();
        //shieldsettings.image = "shield";
@@ -64,7 +63,7 @@ var Player = me.ObjectEntity.extend(
        //this.shield.addAnimation( "play", frames );
        //this.shield.setCurrentAnimation( "play" );
 
-       if( this.shield ) {
+       if( unlocked('shield') ) {
            this.addShield( this.pos.x, this.pos.y, "shield", 144,
                [ 0, 1, 2, 3, 4, 5 ], 5, 5 );
        }
@@ -138,8 +137,16 @@ var Player = me.ObjectEntity.extend(
             me.state.current().abilities[skill] = true;
         }
 
-        if( type == 'fall' ) {
-            unlock('doubleJump');
+        var skillmap = {
+            fall: 'doubleJump',
+            enemy: 'shield',
+            spikes: 'spikeHat',
+            rock: 'buttStomp',
+            bomb: 'rocketJump',
+        };
+
+        if( skillmap[type] ) {
+            unlock( skillmap[type] );
         }
 
         console.log( "player died type %s", type );
@@ -207,7 +214,6 @@ var Player = me.ObjectEntity.extend(
         {
             if ( colRes.obj.type == "rock" )
             {
-                console.log( "rock collision" );
                 if ( !this.spikeHat )
                 {
                     this.hit( colRes.obj.type );
@@ -271,6 +277,12 @@ var Player = me.ObjectEntity.extend(
         else if ( this.buttStomped )
         {
             this.setCurrentAnimation( "buttstomp" );
+        }
+        else if ( this.doubleJumped && ! this.falling) {
+            this.setCurrentAnimation( "jump_extra" );
+        }
+        else if ( this.rocketJumped && ! this.falling) {
+            this.setCurrentAnimation( "jump_extra" );
         }
         else if ( this.jumping )
         {
@@ -385,8 +397,6 @@ var Player = me.ObjectEntity.extend(
             // double jump
             else if ( this.haveDoubleJump && !this.doubleJumped )
             {
-                this.setCurrentAnimation( "jump_extra" );
-                console.log( "double jump" );
                 this.resetFall();
                 this.forceJump();
                 this.doubleJumped = true;
@@ -403,7 +413,6 @@ var Player = me.ObjectEntity.extend(
                 // bit of a hack here, have to set vel to allow vel to go higher
                 // (maxvel not working?)
                 // gets reset on fall/wallstick
-                this.setCurrentAnimation( "jump_extra" );
                 this.resetFall();
                 this.setVelocity( 5.0, 15.0 );
                 this.vel.y = -15.0;
@@ -436,8 +445,6 @@ var Player = me.ObjectEntity.extend(
             function() { me.game.remove( particle ) } );
         me.game.add( particle, z );
         me.game.sort();
-        console.log( particle.pos.x );
-        console.log( particle.pos.y );
     },
 
     // TODO this code is redundant and terrible. why does the commented one not
