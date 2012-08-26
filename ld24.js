@@ -52,15 +52,13 @@ var PlayScreen = me.ScreenObject.extend(
     },
 
     restartLevel: function( level ) {
-        // default to level 3 for now.
-        level = level || "level3" ||  me.levelDirector.getCurrentLevelId();
         me.levelDirector.loadLevel( level );
     },
 
     // this will be called on state change -> this
     onResetEvent: function()
     {
-        this.restartLevel( location.hash.substr(1) );
+        this.restartLevel( location.hash.substr(1) || "level1" );
     },
 
     onDestroyEvent: function()

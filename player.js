@@ -138,27 +138,27 @@ var Player = me.ObjectEntity.extend(
         // check collision against environment
         var envRes = this.updateMovement();
 
-        if ( ( this.jumping || this.falling && ! this.swimming) &&
-            envRes.x != 0 && envRes.y == 0 && envRes.xtile != null &&
-            !envRes.xprop.isPlatform )
+        if (
+            this.haveWallStick &&
+            ( this.jumping || this.falling && ! this.swimming) &&
+            envRes.x != 0 &&
+            envRes.y == 0 &&
+            envRes.xtile != null &&
+            !envRes.xprop.isPlatform &&
+            !envRes.xprop.isSlope
+        )
         {
-            //console.log( "wall?" );
-            if ( envRes.xprop.isPlatform )
-                console.log( "PLATFORM" );
             if ( envRes.xtile.isCollisionMap )
             {
                 console.log( "colmap" );
             }
-            if ( this.haveWallStick )
-            {
-                //console.log( "wallstuck" );
-                this.wallStuck = true;
-                this.wallStuckDir = envRes.x;
-                this.gravity = this.wallStuckGravity;
-                this.vel.y = 0.0;
-                this.resetFall();
-                this.buttStomped = false;
-            }
+            //console.log( "wallstuck" );
+            this.wallStuck = true;
+            this.wallStuckDir = envRes.x;
+            this.gravity = this.wallStuckGravity;
+            this.vel.y = 0.0;
+            this.resetFall();
+            this.buttStomped = false;
         }
         else if ( envRes.y > 0 )
         {
@@ -359,6 +359,7 @@ var Player = me.ObjectEntity.extend(
             else if ( this.haveDoubleJump && !this.doubleJumped )
             {
                 console.log( "double jump" );
+                this.resetFall();
                 this.forceJump();
                 this.doubleJumped = true;
                 this.spawnParticle( this.pos.x, this.pos.y, "doublejump", 144,
@@ -374,6 +375,7 @@ var Player = me.ObjectEntity.extend(
                 // bit of a hack here, have to set vel to allow vel to go higher
                 // (maxvel not working?)
                 // gets reset on fall/wallstick
+                this.resetFall();
                 this.setVelocity( 5.0, 15.0 );
                 this.vel.y = -15.0;
                 this.rocketJumped = true;
