@@ -37,5 +37,9 @@ var gameResources =
     { name: "level4", type: "tmx", src: "data/level4.tmx" },
     { name: "level5", type: "tmx", src: "data/level5.tmx" },
 
+    { name: "16x16_font", type: "image", src: "data/16x16_font.png" },
+    { name: "32x32_font", type: "image", src: "data/32x32_font.png" },
+    { name: "64x64_font", type: "image", src: "data/64x64_font.png" },
+
     { name: "radmarslogo", type: "audio", src: "data/", channels : 2 }
 ];
