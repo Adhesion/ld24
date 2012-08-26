@@ -53,49 +53,49 @@
   </object>
   <object name="spikes" x="49" y="866" width="48" height="48">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="spikes"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
   <object name="spikes" x="97" y="866" width="48" height="48">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="spikes"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
   <object name="spikes" x="145" y="866" width="48" height="48">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="spikes"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
   <object name="spikes" x="193" y="866" width="48" height="48">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="spikes"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
   <object name="spikes" x="241" y="866" width="48" height="48">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="spikes"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
   <object name="balloon" x="1297" y="1056" width="48" height="48">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="balloon"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
   <object name="balloon" x="1396" y="1056" width="48" height="48">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="balloon"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
   <object name="balloon" x="1347" y="1056" width="48" height="48">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="balloon"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
