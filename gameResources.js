@@ -38,6 +38,8 @@ var gameResources =
     { name: "level5", type: "tmx", src: "data/level5.tmx" },
     { name: "level6", type: "tmx", src: "data/level6.tmx" },
     { name: "level7", type: "tmx", src: "data/level7.tmx" },
+    { name: "level8", type: "tmx", src: "data/level8.tmx" },
+
 
 
 
