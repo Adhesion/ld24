@@ -33,6 +33,7 @@ var jsApp =
 
         me.entityPool.add( "player", Player );
 
+        me.entityPool.add( "water", Water );
         me.entityPool.add( "rock", Rock );
         me.entityPool.add( "spikes", Spikes );
         me.entityPool.add( "balloon", Balloon );

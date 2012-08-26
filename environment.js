@@ -6,6 +6,17 @@
  * @author Adhesion
  */
 
+/** Water is just a colision object to enable mode changes. */
+var Water = me.InvisibleEntity.extend({
+    init: function( x, y, settings ) {
+        this.parent( x, y, settings );
+        this.gravity = 0.0;
+        this.collidable = true;
+        this.type = 'water';
+    },
+});
+
+
 var Rock = me.ObjectEntity.extend(
 {
     init: function( x, y, settings )

@@ -82,6 +82,8 @@ var Player = me.ObjectEntity.extend(
        me.game.viewport.follow( this.followPos, me.game.viewport.AXIS.BOTH );
        me.game.viewport.setDeadzone( me.game.viewport.width / 10, 1 );
 
+       me.input.bindKey( me.input.KEY.UP, "up" );
+       me.input.bindKey( me.input.KEY.DOWN, "down" );
        me.input.bindKey( me.input.KEY.LEFT, "left" );
        me.input.bindKey( me.input.KEY.RIGHT, "right" );
        me.input.bindKey( me.input.KEY.X, "jump", true );
@@ -136,7 +138,7 @@ var Player = me.ObjectEntity.extend(
         // check collision against environment
         var envRes = this.updateMovement();
 
-        if ( ( this.jumping || this.falling ) &&
+        if ( ( this.jumping || this.falling && ! this.swimming) &&
             envRes.x != 0 && envRes.y == 0 && envRes.xtile != null &&
             !envRes.xprop.isPlatform )
         {
@@ -193,6 +195,14 @@ var Player = me.ObjectEntity.extend(
                     this.hit( colRes.obj.type );
                 }
             }
+            else if ( !this.swimming && colRes.obj.type == "water" ) {
+                this.vel.y *= .5;
+                this.vel.x *= .5;
+                this.falling = false;
+                this.resetFall();
+                this.swimming = true;
+                this.gravity = 0;
+            }
             else if ( colRes.obj.type == "spikes" )
             {
                 this.vel.y = 0;
@@ -211,7 +221,10 @@ var Player = me.ObjectEntity.extend(
                 }
             }
         }
-
+        else if( this.swimming ) {
+            this.swimming = false;
+            this.gravity = this.origGravity;
+        }
         // update animation
 
         // force impact frame to stay for a few frames
@@ -242,8 +255,9 @@ var Player = me.ObjectEntity.extend(
         {
             this.setCurrentAnimation( "fall" );
         }
-        else if ( me.input.isKeyPressed( "left" ) ||
-            me.input.isKeyPressed( "right" ) )
+        else if (
+            me.input.isKeyPressed( "left" ) || me.input.isKeyPressed( "right" )
+            || ( this.swimming && ( me.input.isKeyPressed( "up" ) || me.input.isKeyPressed( "down" ) ) ) )
         {
             this.setCurrentAnimation( "run" );
         }
@@ -288,6 +302,36 @@ var Player = me.ObjectEntity.extend(
                 this.vel.x = this.wallStuckDir * -10.0;
                 //this.vel.y = -20.0;
                 this.wallStuckCounter = 15;
+            }
+            return;
+        }
+
+        if ( this.swimming ) {
+            // Arbitrary. Friction would be better than changing velocity.
+            // Someone should fix this.
+            movespeed = this.accel.x * me.timer.tick * .8;
+            if( me.input.isKeyPressed( "up" ) )
+            {
+                this.vel.y = -movespeed * .75;
+            }
+            if ( me.input.isKeyPressed( "down" ) )
+            {
+                this.vel.y = movespeed * .75;
+            }
+            if ( me.input.isKeyPressed( "left" ) )
+            {
+                this.flipX( true );
+                this.vel.x = -movespeed;
+            }
+            if ( me.input.isKeyPressed( "right" ) )
+            {
+                this.flipX( false );
+                this.vel.x = movespeed;
+            }
+
+            // TODO Ugly hacks
+            if ( me.input.isKeyPressed( "jump" ) ) {
+                this.doJump();
             }
             return;
         }
