@@ -59,6 +59,7 @@ var PlayScreen = me.ScreenObject.extend(
     {
         this.storyDisplay = new StoryDisplay();
         this.levelDisplay = new LevelDisplay();
+        this.skillDisplay = new SkillDisplay();
     },
 
     showStoryText: function( text )
@@ -82,6 +83,7 @@ var PlayScreen = me.ScreenObject.extend(
     changeLevel: function( )
     {
         this.levelDisplay.reset("levelDisplay");
+        this.skillDisplay.reset('skillDisplay');
     },
 
     startLevel: function( level )
@@ -220,18 +222,47 @@ var TemporaryDisplay = me.HUD_Item.extend({
         return '';
     },
 
-    /** Draws the level display if the timer hasn't expired.
-     * TODO: Possible performance tweak would be to cache timer expire. */
+    /** Draws the text. Newlines are split out by font size. */
     draw: function( context, x, y ) {
-        this.font.draw(
-            context,
-            this.getText().toUpperCase(),
-            this.pos.x + x,
-            this.pos.y + y
-        );
+        var lines = this.getText().split( "\n" );
+        for( var i = 0; i < lines.length; i++ ) {
+            this.font.draw(
+                context,
+                lines[i].toUpperCase(),
+                this.pos.x + x,
+                this.pos.y + y + i * this.font.size.y
+            );
+        }
     }
 });
 
+var SkillDisplay = TemporaryDisplay.extend({
+    init: function() {
+        this.parent( 50, 100, {
+            font: new me.BitmapFont( "16x16_font", 16),
+        });
+        this.text = '';
+    },
+
+    skill: function( item ) {
+        if( item == 'doubleJump') return 'double jump';
+        return item;
+    },
+
+    getText: function() {
+        var abilities = me.state.current().abilities;
+        var t = '';
+        for( var item in abilities ) {
+            if( abilities[item] != undefined ) {
+                t += "You " + ( abilities[item] ? "can " : "can't " ) + this.skill( item ) + "\n";
+            }
+       }
+       return t;
+    }
+});
+
+/* Story display could probably go away but it just displays a single text blob
+ * on events. */
 var StoryDisplay = TemporaryDisplay.extend({
 
     init: function() {
