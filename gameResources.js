@@ -19,6 +19,7 @@ var gameResources =
 
     { name: "player", type: "image", src: "data/player.png" },
 
+    { name: "shield", type: "image", src: "data/shield.png" },
     { name: "buttstompimpact", type: "image", src: "data/buttstompimpact.png" },
     { name: "doublejump", type: "image", src: "data/doublejump.png" },
     { name: "explode", type: "image", src: "data/explode.png" },

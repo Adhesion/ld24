@@ -42,6 +42,20 @@ var Player = me.ObjectEntity.extend(
        this.haveWallStick = true;
        this.spikeHat = true;
 
+       //var shieldsettings = new Object();
+       //shieldsettings.image = "shield";
+       //shieldsettings.spritewidth = 144;
+
+       //this.shield = new me.ObjectEntity( this.pos.x, this.pos.y,
+       //    shieldsettings );
+       //this.shield.animationspeed = 3;
+       //var frames = [ 0, 1, 2, 3, 4, 5 ];
+       //this.shield.addAnimation( "play", frames );
+       //this.shield.setCurrentAnimation( "play" );
+
+       this.addShield( this.pos.x, this.pos.y, "shield", 144,
+           [ 0, 1, 2, 3, 4, 5 ], 5, 5 );
+
        // mobility stuff
        this.doubleJumped = false;
        this.rocketJumped = false;
@@ -54,6 +68,10 @@ var Player = me.ObjectEntity.extend(
        this.impactCounter = 0;
 
        this.hp = 1;
+       if ( this.shield )
+       {
+           this.hp++;
+       }
 
        this.centerOffsetX = 72;
        this.centerOffsetY = 72;
@@ -87,6 +105,17 @@ var Player = me.ObjectEntity.extend(
         if ( this.hp == 0 )
         {
             this.flicker( 90, this.die( type ) );
+        }
+        else
+        {
+            this.shield.flicker( 90,
+                function()
+                {
+                    //me.game.player.shield.die();
+                    me.game.remove( this.shield );
+                    me.game.player.shield = null;
+                    me.game.sort();
+                } );
         }
     },
 
@@ -230,6 +259,13 @@ var Player = me.ObjectEntity.extend(
         this.followPos.x = this.pos.x + this.centerOffsetX;
         this.followPos.y = this.pos.y + this.centerOffsetY;
 
+        // update shield
+        if ( this.shield )
+        {
+            this.shield.pos.x = this.pos.x;
+            this.shield.pos.y = this.pos.y;
+        }
+
         this.parent( this );
         return true;
     },
@@ -325,5 +361,41 @@ var Player = me.ObjectEntity.extend(
             function() { me.game.remove( particle ) } );
         me.game.add( particle, z );
         me.game.sort();
+        console.log( particle.pos.x );
+        console.log( particle.pos.y );
+    },
+
+    // TODO this code is redundant and terrible. why does the commented one not
+    // work :(
+
+    addShield: function( x, y, sprite, spritewidth, frames, speed, z )
+    {
+        var settings = new Object();
+        settings.image = sprite;
+        settings.spritewidth = spritewidth;
+
+        this.shield = new me.ObjectEntity( x, y, settings );
+        this.shield.animationspeed = speed;
+        this.shield.addAnimation( "play", frames );
+        this.shield.setCurrentAnimation( "play" );
+        me.game.add( this.shield, z );
+        me.game.sort();
     }
+
+    /*addShieldBad: function()
+    {
+        console.log( "addshield" );
+        var settings = new Object();
+        settings.image = "shield";
+        settings.spritewidth = 144;
+
+        var shield = new me.ObjectEntity( this.pos.x, this.pos.y, settings );
+        shield.animationspeed = 3;
+        shield.addAnimation( "play", [ 0, 1, 2, 3, 4, 5 ] );
+        shield.setCurrentAnimation( "play" );
+        me.game.add( shield, this.z );
+        me.game.sort();
+        console.log( shield.pos.x );
+        console.log( shield.pos.y );
+    }*/
 });
