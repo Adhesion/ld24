@@ -136,12 +136,14 @@ var LevelChanger = me.LevelEntity.extend({
     },
 
     goTo: function ( level ) {
+        /*
         if ( this.gotolevel == "gameover" ) {
           me.state.change( me.state.GAMEOVER );
           return;
         }
+        */
         this.parent( level );
-        me.state.current().changeLevel( this.gotolevel );
+        // me.state.current().changeLevel( this.gotolevel );
     }
 });
 
