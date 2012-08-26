@@ -111,9 +111,9 @@ var Player = me.ObjectEntity.extend(
             this.shield.flicker( 90,
                 function()
                 {
-                    //me.game.player.shield.die();
-                    me.game.remove( this.shield );
                     me.game.player.shield = null;
+                    //me.game.player.shield.die();
+                    me.game.remove( this );
                     me.game.sort();
                 } );
         }
