@@ -48,7 +48,7 @@
    <properties>
     <property name="duration" value="250"/>
     <property name="fade" value="#000000"/>
-    <property name="to" value="level4"/>
+    <property name="to" value="level6"/>
    </properties>
   </object>
   <object name="spikes" x="49" y="866" width="48" height="48">

@@ -48,7 +48,7 @@
    <properties>
     <property name="duration" value="250"/>
     <property name="fade" value="#000000"/>
-    <property name="to" value="level4"/>
+    <property name="to" value="level5"/>
    </properties>
   </object>
   <object name="enemy" x="662" y="1424" width="63" height="45">
