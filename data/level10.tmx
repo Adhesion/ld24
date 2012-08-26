@@ -81,19 +81,25 @@
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
-  <object name="rock" x="288" y="624" width="48" height="48">
+  <object name="rock" x="192" y="626" width="48" height="48">
    <properties>
     <property name="image" value="rock"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
-  <object name="rock" x="193" y="624" width="48" height="48">
+  <object name="rock" x="144" y="626" width="48" height="48">
    <properties>
     <property name="image" value="rock"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
-  <object name="rock" x="97" y="624" width="48" height="48">
+  <object name="rock" x="96" y="625" width="48" height="48">
+   <properties>
+    <property name="image" value="rock"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
+  <object name="rock" x="241" y="626" width="48" height="48">
    <properties>
     <property name="image" value="rock"/>
     <property name="spritewidth" value="48"/>
