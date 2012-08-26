@@ -26,14 +26,19 @@ var Player = me.ObjectEntity.extend(
 
        this.animationspeed = 4;
 
-       this.addAnimation( "idle", [ 0 ] );
-       this.addAnimation( "jump", [ 1 ] );
-       this.addAnimation( "fall", [ 2 ] );
-       this.addAnimation( "run", [ 3, 4, 5, 6 ] );
-       this.addAnimation( "attack", [ 7 ] );
-       this.addAnimation( "wallstuck", [ 8 ] );
-       this.addAnimation( "buttstomp", [ 9 ] );
-       this.addAnimation( "impact", [ 10 ] );
+       this.addAnimation( "idle", [ 0, 1, 2, 3 ] );
+       this.addAnimation( "jump", [ 4 ] );
+       this.addAnimation( "jump_extra", [ 5 ] );
+       this.addAnimation( "fall", [ 6 ] );
+       this.addAnimation( "run", [ 7, 8, 9, 10 ] );
+       this.addAnimation( "attack", [ 11 ] );
+       this.addAnimation( "wallstuck", [ 12 ] );
+       this.addAnimation( "buttstomp", [ 13 ] );
+       this.addAnimation( "impact", [ 14 ] );
+       this.addAnimation( "die", [ 15 ] );
+	   this.addAnimation( "swim_idle", [ 16, 17, 18, 19 ] );
+	   this.addAnimation( "swim", [ 20, 21, 22, 23 ] );
+	   
 
        // abilities
        this.haveDoubleJump = true;
@@ -202,6 +207,8 @@ var Player = me.ObjectEntity.extend(
                 this.resetFall();
                 this.swimming = true;
                 this.gravity = 0;
+				this.setCurrentAnimation( "swim" );
+				this.animationspeed = 7;
             }
             else if ( colRes.obj.type == "spikes" )
             {
@@ -222,6 +229,7 @@ var Player = me.ObjectEntity.extend(
             }
         }
         else if( this.swimming ) {
+			this.animationspeed = 4;
             this.swimming = false;
             this.gravity = this.origGravity;
         }
@@ -259,11 +267,13 @@ var Player = me.ObjectEntity.extend(
             me.input.isKeyPressed( "left" ) || me.input.isKeyPressed( "right" )
             || ( this.swimming && ( me.input.isKeyPressed( "up" ) || me.input.isKeyPressed( "down" ) ) ) )
         {
-            this.setCurrentAnimation( "run" );
+            if(this.swimming) this.setCurrentAnimation( "swim" );
+			else this.setCurrentAnimation( "run" );
         }
         else
         {
-            this.setCurrentAnimation( "idle" );
+            if(this.swimming) this.setCurrentAnimation( "swim_idle" );
+			else this.setCurrentAnimation( "idle" );
         }
 
         if ( this.impactCounter > 0 ) --this.impactCounter;
@@ -277,7 +287,7 @@ var Player = me.ObjectEntity.extend(
         if ( this.shield )
         {
             this.shield.pos.x = this.pos.x;
-            this.shield.pos.y = this.pos.y;
+            this.shield.pos.y = this.pos.y + 15;
         }
 
         this.parent( this );
@@ -358,6 +368,7 @@ var Player = me.ObjectEntity.extend(
             // double jump
             else if ( this.haveDoubleJump && !this.doubleJumped )
             {
+				this.setCurrentAnimation( "jump_extra" );
                 console.log( "double jump" );
                 this.resetFall();
                 this.forceJump();
@@ -375,6 +386,7 @@ var Player = me.ObjectEntity.extend(
                 // bit of a hack here, have to set vel to allow vel to go higher
                 // (maxvel not working?)
                 // gets reset on fall/wallstick
+				this.setCurrentAnimation( "jump_extra" );
                 this.resetFall();
                 this.setVelocity( 5.0, 15.0 );
                 this.vel.y = -15.0;
