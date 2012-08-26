@@ -51,7 +51,6 @@ var Player = me.ObjectEntity.extend(
        this.haveButtStomp = unlocked('buttStomp');
        this.haveWallStick = unlocked('wallStick');
        this.spikeHat = unlocked('spikeHat');
-       this.shield = unlocked('shield');
 
        //var shieldsettings = new Object();
        //shieldsettings.image = "shield";
@@ -64,7 +63,7 @@ var Player = me.ObjectEntity.extend(
        //this.shield.addAnimation( "play", frames );
        //this.shield.setCurrentAnimation( "play" );
 
-       if( this.shield ) {
+       if( unlocked('shield') ) {
            this.addShield( this.pos.x, this.pos.y, "shield", 144,
                [ 0, 1, 2, 3, 4, 5 ], 5, 5 );
        }
@@ -138,8 +137,16 @@ var Player = me.ObjectEntity.extend(
             me.state.current().abilities[skill] = true;
         }
 
-        if( type == 'fall' ) {
-            unlock('doubleJump');
+        var skillmap = {
+            fall: 'doubleJump',
+            enemy: 'shield',
+            spikes: 'spikeHat',
+            rock: 'buttStomp',
+            bomb: 'rocketJump',
+        };
+
+        if( skillmap[type] ) {
+            unlock( skillmap[type] );
         }
 
         console.log( "player died type %s", type );
@@ -207,7 +214,6 @@ var Player = me.ObjectEntity.extend(
         {
             if ( colRes.obj.type == "rock" )
             {
-                console.log( "rock collision" );
                 if ( !this.spikeHat )
                 {
                     this.hit( colRes.obj.type );
