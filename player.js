@@ -138,27 +138,27 @@ var Player = me.ObjectEntity.extend(
         // check collision against environment
         var envRes = this.updateMovement();
 
-        if ( ( this.jumping || this.falling && ! this.swimming) &&
-            envRes.x != 0 && envRes.y == 0 && envRes.xtile != null &&
-            !envRes.xprop.isPlatform )
+        if (
+            this.haveWallStick &&
+            ( this.jumping || this.falling && ! this.swimming) &&
+            envRes.x != 0 &&
+            envRes.y == 0 &&
+            envRes.xtile != null &&
+            !envRes.xprop.isPlatform &&
+            !envRes.xprop.isSlope
+        )
         {
-            //console.log( "wall?" );
-            if ( envRes.xprop.isPlatform )
-                console.log( "PLATFORM" );
             if ( envRes.xtile.isCollisionMap )
             {
                 console.log( "colmap" );
             }
-            if ( this.haveWallStick )
-            {
-                //console.log( "wallstuck" );
-                this.wallStuck = true;
-                this.wallStuckDir = envRes.x;
-                this.gravity = this.wallStuckGravity;
-                this.vel.y = 0.0;
-                this.resetFall();
-                this.buttStomped = false;
-            }
+            //console.log( "wallstuck" );
+            this.wallStuck = true;
+            this.wallStuckDir = envRes.x;
+            this.gravity = this.wallStuckGravity;
+            this.vel.y = 0.0;
+            this.resetFall();
+            this.buttStomped = false;
         }
         else if ( envRes.y > 0 )
         {
