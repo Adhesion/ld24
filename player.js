@@ -46,7 +46,7 @@ var Player = me.ObjectEntity.extend(
        }
 
        // abilities
-       this.haveDoubleJump = unlocked('doubleJump');
+       this.haveDoubleJump = true || unlocked('doubleJump');
        this.haveRocketJump = unlocked('rocketJump');
        this.haveButtStomp = unlocked('buttStomp');
        this.haveWallStick = unlocked('wallStick');
@@ -143,6 +143,7 @@ var Player = me.ObjectEntity.extend(
             spikes: 'spikeHat',
             rock: 'buttStomp',
             bomb: 'rocketJump',
+            saw: 'wallStick'
         };
 
         if( skillmap[type] ) {
