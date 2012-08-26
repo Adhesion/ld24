@@ -278,6 +278,12 @@ var Player = me.ObjectEntity.extend(
         {
             this.setCurrentAnimation( "buttstomp" );
         }
+        else if ( this.doubleJumped && ! this.falling) {
+            this.setCurrentAnimation( "jump_extra" );
+        }
+        else if ( this.rocketJumped && ! this.falling) {
+            this.setCurrentAnimation( "jump_extra" );
+        }
         else if ( this.jumping )
         {
             this.setCurrentAnimation( "jump" );
@@ -391,8 +397,6 @@ var Player = me.ObjectEntity.extend(
             // double jump
             else if ( this.haveDoubleJump && !this.doubleJumped )
             {
-                this.setCurrentAnimation( "jump_extra" );
-                console.log( "double jump" );
                 this.resetFall();
                 this.forceJump();
                 this.doubleJumped = true;
@@ -409,7 +413,6 @@ var Player = me.ObjectEntity.extend(
                 // bit of a hack here, have to set vel to allow vel to go higher
                 // (maxvel not working?)
                 // gets reset on fall/wallstick
-                this.setCurrentAnimation( "jump_extra" );
                 this.resetFall();
                 this.setVelocity( 5.0, 15.0 );
                 this.vel.y = -15.0;
@@ -442,8 +445,6 @@ var Player = me.ObjectEntity.extend(
             function() { me.game.remove( particle ) } );
         me.game.add( particle, z );
         me.game.sort();
-        console.log( particle.pos.x );
-        console.log( particle.pos.y );
     },
 
     // TODO this code is redundant and terrible. why does the commented one not
