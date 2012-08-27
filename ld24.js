@@ -33,7 +33,7 @@ var jsApp =
 
         me.entityPool.add( "player", Player );
         me.entityPool.add( "enemy", Enemy );
-
+        me.entityPool.add( "Saw", Saw );
         me.entityPool.add( "water", Water );
         me.entityPool.add( "rock", Rock );
         me.entityPool.add( "spikes", Spikes );
@@ -250,6 +250,7 @@ var SkillDisplay = TemporaryDisplay.extend({
         if( item == 'spikeHat') return 'poke things with your head';
         if( item == 'buttStomp' ) return 'fall quickly';
         if( item == 'rocketJump' ) return 'ride the rocket';
+        if( item == 'wallStick' ) return 'claw into the wall';
         // fallback...
         return item;
     },
