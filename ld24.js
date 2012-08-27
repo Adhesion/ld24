@@ -191,7 +191,6 @@ var LevelChanger = me.LevelEntity.extend({
 
     onCollision : function()
     {
-        console.log( "hit level change" );
         this.fruit.setCurrentAnimation( "eat" );
         return this.parent();
     },
