@@ -52,11 +52,11 @@ var Player = me.ObjectEntity.extend(
        }
 
        // abilities
-       this.haveDoubleJump = unlocked('doubleJump') || true;
-       this.haveRocketJump = unlocked('rocketJump') || true;
-       this.haveButtStomp = unlocked('buttStomp') || true;
-       this.haveWallStick = unlocked('wallStick') || true;
-       this.spikeHat = unlocked('spikeHat') || true;
+       this.haveDoubleJump = unlocked('doubleJump');
+       this.haveRocketJump = unlocked('rocketJump');
+       this.haveButtStomp = unlocked('buttStomp');
+       this.haveWallStick = unlocked('wallStick');
+       this.spikeHat = unlocked('spikeHat');
        this.haveGills = unlocked('gills');
 
        //var shieldsettings = new Object();
