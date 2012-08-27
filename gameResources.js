@@ -25,6 +25,7 @@ var gameResources =
     { name: "buttstompimpact", type: "image", src: "data/buttstompimpact.png" },
     { name: "doublejump", type: "image", src: "data/doublejump.png" },
     { name: "explode", type: "image", src: "data/explode.png" },
+    { name: "splash", type: "image", src: "data/splash.png" },
 
     { name: "rock", type: "image", src: "data/rocktemp.png" },
     { name: "bomb", type: "image", src: "data/bomb.png" },

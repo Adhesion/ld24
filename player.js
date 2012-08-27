@@ -166,7 +166,6 @@ var Player = me.ObjectEntity.extend(
 
     update: function()
     {
-
         if( this.hp > 0 ) {
             this.checkInput();
         }
@@ -181,7 +180,7 @@ var Player = me.ObjectEntity.extend(
 
         if (
             this.haveWallStick &&
-            ( this.jumping || this.falling && ! this.swimming) &&
+            ( ( this.jumping || this.falling ) && ! this.swimming ) &&
             envRes.x != 0 &&
             envRes.y == 0 &&
             envRes.xtile != null &&
@@ -195,6 +194,7 @@ var Player = me.ObjectEntity.extend(
             this.vel.y = 0.0;
             this.resetFall();
             this.buttStomped = false;
+            console.log( "stuck" );
         }
         else if ( envRes.y > 0 )
         {
@@ -244,7 +244,8 @@ var Player = me.ObjectEntity.extend(
             {
                 this.hit( colRes.obj.type );
             }
-            else if ( !this.swimming && colRes.obj.type == "water" ) {
+            else if ( !this.swimming && colRes.obj.type == "water" )
+            {
                 this.vel.y *= .5;
                 this.vel.x *= .5;
                 this.falling = false;
@@ -253,6 +254,9 @@ var Player = me.ObjectEntity.extend(
                 this.gravity = 0;
                 this.setCurrentAnimation( "swim" );
                 this.animationspeed = 7;
+                console.log( "hit water" );
+                spawnParticle( this.pos.x, colRes.obj.pos.y - 192, "splash", 144,
+                    [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z + 1 );
             }
             else if ( colRes.obj.type == "spikes" )
             {
@@ -276,7 +280,10 @@ var Player = me.ObjectEntity.extend(
                 }
             }
         }
-        else if( this.swimming ) {
+        // set swimming false if not colliding with anything & swimming
+        else if( this.swimming )
+        {
+            console.log( "got out of water" );
             this.animationspeed = 4;
             this.swimming = false;
             this.gravity = this.origGravity;
