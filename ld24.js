@@ -278,7 +278,19 @@ var SkillDisplay = TemporaryDisplay.extend({
         var t = '';
         for( var item in abilities ) {
             if( abilities[item] != undefined ) {
-                t += "You " + ( abilities[item] ? "can " : "can't " ) + this.skill( item ) + "\n";
+                if ( item == 'gills' )
+                {
+                    t += "You have ";
+                    t += ( abilities[item] ? this.skill( item ) : "lungs" );
+                    t += "\n";
+                }
+                else
+                {
+                    t += "You ";
+                    t += ( abilities[item] ? "can " : "can't " );
+                    t += this.skill( item )
+                    t += "\n";
+                }
             }
        }
        return t;

@@ -57,6 +57,7 @@ var Player = me.ObjectEntity.extend(
        this.haveButtStomp = unlocked('buttStomp');
        this.haveWallStick = unlocked('wallStick');
        this.spikeHat = unlocked('spikeHat');
+       this.haveGills = unlocked('gills');
 
        //var shieldsettings = new Object();
        //shieldsettings.image = "shield";
@@ -81,6 +82,9 @@ var Player = me.ObjectEntity.extend(
        this.wallStuck = false;
        this.wallStuckDir = 0.0;
        this.wallStuckCounter = 0;
+       this.maxBreath = 1200;
+       this.breath = this.maxBreath;
+       this.drowning = false;
 
        this.fallCounter = 0;
        this.impactCounter = 0;
@@ -134,6 +138,11 @@ var Player = me.ObjectEntity.extend(
                 me.game.remove( this );
                 me.game.sort();
             });
+            if ( type == 'drown' )
+            {
+                // give some extra time
+                this.breath += 120;
+            }
         }
     },
 
@@ -142,6 +151,10 @@ var Player = me.ObjectEntity.extend(
         function unlock( skill ) {
             me.state.current().abilities[skill] = true;
         }
+        function toggle( skill ) {
+            me.state.current().abilities[skill] =
+                !me.state.current().abilities[skill];
+        }
 
         var skillmap = {
             fall: 'doubleJump',
@@ -149,11 +162,20 @@ var Player = me.ObjectEntity.extend(
             spikes: 'spikeHat',
             rock: 'buttStomp',
             bomb: 'rocketJump',
-            saw: 'wallStick'
+            saw: 'wallStick',
+            drown: 'gills'
         };
 
         if( skillmap[type] ) {
-            unlock( skillmap[type] );
+            // have to do special case for gills toggle
+            if ( skillmap[type] == 'gills' )
+            {
+                toggle( skillmap[type] );
+            }
+            else
+            {
+                unlock( skillmap[type] );
+            }
         }
 
         console.log( "player died type %s", type );
@@ -167,6 +189,25 @@ var Player = me.ObjectEntity.extend(
     {
         if( this.hp > 0 ) {
             this.checkInput();
+        }
+
+        // check breath
+        if ( this.swimming != this.haveGills )
+        {
+            console.log( "held breath" );
+            this.breath--;
+
+            // 11 seconds for drown sound
+            if ( this.breath < 660 && !this.drowning )
+            {
+                // play sound
+                console.log( "!!!! drowning" );
+                this.drowning = true;
+            }
+            if ( this.breath == 0 )
+            {
+                this.hit( "drown" );
+            }
         }
 
         if ( this.falling && !this.wallStuck )
@@ -251,6 +292,10 @@ var Player = me.ObjectEntity.extend(
                 this.animationspeed = 7;
                 spawnParticle( this.pos.x, colRes.obj.pos.y - 192, "splash", 144,
                     [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z + 1 );
+                if ( this.haveGills )
+                {
+                    this.resetBreath();
+                }
             }
             else if ( colRes.obj.type == "spikes" )
             {
@@ -280,7 +325,12 @@ var Player = me.ObjectEntity.extend(
             this.animationspeed = 4;
             this.swimming = false;
             this.gravity = this.origGravity;
+            if ( !this.haveGills )
+            {
+                this.resetBreath();
+            }
         }
+
         // update animation
 
         // force impact frame to stay for a few frames
@@ -356,6 +406,15 @@ var Player = me.ObjectEntity.extend(
     {
         this.fallCounter = 0;
         this.setVelocity( this.origVelocity.x, this.origVelocity.y );
+    },
+
+    resetBreath: function()
+    {
+        if ( this.drowning )
+        {
+            // reset song
+        }
+        this.breath = this.maxBreath;
     },
 
     checkInput: function()
