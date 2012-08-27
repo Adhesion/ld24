@@ -39,7 +39,6 @@ var Player = me.ObjectEntity.extend(
        this.addAnimation( "swim_idle", [ 16, 17, 18, 19 ] );
        this.addAnimation( "swim", [ 20, 21, 22, 23 ] );
 
-
        var vars = {};
        var parts = window.location.href.replace(
            /[?&]+([^=&]+)=([^&]*)/gi,
@@ -166,7 +165,6 @@ var Player = me.ObjectEntity.extend(
 
     update: function()
     {
-
         if( this.hp > 0 ) {
             this.checkInput();
         }
@@ -181,7 +179,7 @@ var Player = me.ObjectEntity.extend(
 
         if (
             this.haveWallStick &&
-            ( this.jumping || this.falling && ! this.swimming) &&
+            ( ( this.jumping || this.falling ) && ! this.swimming ) &&
             envRes.x != 0 &&
             envRes.y == 0 &&
             envRes.xtile != null &&
@@ -195,6 +193,7 @@ var Player = me.ObjectEntity.extend(
             this.vel.y = 0.0;
             this.resetFall();
             this.buttStomped = false;
+            console.log( "stuck" );
         }
         else if ( envRes.y > 0 )
         {
@@ -244,7 +243,8 @@ var Player = me.ObjectEntity.extend(
             {
                 this.hit( colRes.obj.type );
             }
-            else if ( !this.swimming && colRes.obj.type == "water" ) {
+            else if ( !this.swimming && colRes.obj.type == "water" )
+            {
                 this.vel.y *= .5;
                 this.vel.x *= .5;
                 this.falling = false;
@@ -253,6 +253,9 @@ var Player = me.ObjectEntity.extend(
                 this.gravity = 0;
                 this.setCurrentAnimation( "swim" );
                 this.animationspeed = 7;
+                console.log( "hit water" );
+                spawnParticle( this.pos.x, colRes.obj.pos.y - 192, "splash", 144,
+                    [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z + 1 );
             }
             else if ( colRes.obj.type == "spikes" )
             {
@@ -267,11 +270,19 @@ var Player = me.ObjectEntity.extend(
                 this.vel.y = 0;
                 if ( this.spikeHat )
                 {
-                    me.game.remove( colRes.obj );
+                    colRes.collidable = false;
+                    colRes.obj.setCurrentAnimation( "pop", function()
+                        {
+                            me.game.remove( this );
+                            me.game.sort();
+                        } );
                 }
             }
         }
-        else if( this.swimming ) {
+        // set swimming false if not colliding with anything & swimming
+        else if( this.swimming )
+        {
+            console.log( "got out of water" );
             this.animationspeed = 4;
             this.swimming = false;
             this.gravity = this.origGravity;
@@ -283,7 +294,7 @@ var Player = me.ObjectEntity.extend(
         {
             this.impactCounter = 10;
             spawnParticle( this.pos.x, this.pos.y, "buttstompimpact", 144,
-                [ 0, 1, 2, 3, 4 ], 3, this.z - 1 );
+                [ 0, 1, 2, 3, 4 ], 3, this.z + 1 );
         }
 
         if( this.hp <= 0)
@@ -425,7 +436,7 @@ var Player = me.ObjectEntity.extend(
                 this.forceJump();
                 this.doubleJumped = true;
                 spawnParticle( this.pos.x, this.pos.y, "doublejump", 144,
-                    [ 0, 1, 2, 3, 4, 5 ], 3, this.z - 1 );
+                    [ 0, 1, 2, 3, 4, 5 ], 3, this.z + 1 );
             }
         }
 
@@ -442,7 +453,7 @@ var Player = me.ObjectEntity.extend(
                 this.vel.y = -15.0;
                 this.rocketJumped = true;
                 spawnParticle( this.pos.x, this.pos.y + 25, "explode", 144,
-                    [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z - 1 );
+                    [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z + 1 );
             }
         }
 

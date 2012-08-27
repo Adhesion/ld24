@@ -1,84 +1,4 @@
 /* Defines the enemies.  */
-var Saw = me.ObjectEntity.extend({
-	init: function( x, y, settings ) {
-		this.parent( x, y, settings );
-		this.toprange = y;
-		this.bottomrange = y + settings.height;
-
-		this.changeDirection( false );
-		this.flipX( settings.direction || false );
-
-		this.animationspeed = 2;
-
-		this.setVelocity( 0, 1.5 );
-		this.gravity = 0;
-
-		this.collidable = true;
-		this.type = me.game.ENEMY_OBJECT;
-
-		this.addAnimation( "idle", [0, 1, 2] );
-		this.setCurrentAnimation( "idle" );
-	},
-
-	changeDirection: function( d ) {
-		this.direction = d;
-	},
-
-	onCollision: function( res, obj ) {
-		if ( obj == me.game.player ) {
-			obj.hit("saw");
-		}
-	},
-
-	update: function() {
-		if ( !this.visible ) {
-			return false;
-		}
-
-		this.parent();
-
-		// arbitrary math
-		this.vel.y = ( this.direction ? -1 : 1 ) * 1.5 * me.timer.tick;
-		this.pos.add( this.vel );
-
-		// Turn around at extents.
-		if( this.bottom > this.bottomrange || this.top < this.toprange ) {
-			this.changeDirection( ! this.direction );
-		}
-		return false;
-	}
-
-});
-
-var Bomb = me.ObjectEntity.extend({
-    init: function( x, y, settings )
-    {
-        this.parent( x, y, settings );
-        this.gravity = 0.0;
-        this.collidable = true;
-        this.type = "bomb";
-        this.updateColRect( -48, 144, -48, 144 );
-    },
-
-    die: function()
-    {
-        me.game.remove( this );
-        spawnParticle( this.pos.x - 48, this.pos.y - 48,
-            "explode", 144, [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z );
-    },
-
-    checkCollision: function( obj )
-    {
-        // remove bomb on hit
-        var retVal = this.parent( obj );
-        if ( retVal )
-        {
-            this.die();
-        }
-        return retVal;
-    }
-});
-
 var Enemy = me.ObjectEntity.extend({
 	init: function( x, y, settings ){
 		this.parent( x, y, settings );
@@ -103,6 +23,8 @@ var Enemy = me.ObjectEntity.extend({
 		this.addAnimation( "run", [1, 0, 2, 0] );
 
 		this.setCurrentAnimation( "run" );
+
+        this.updateColRect( 0, 96, 20, 67 );
 	},
 
 	changeDirection: function( d ) {
@@ -152,4 +74,84 @@ var Enemy = me.ObjectEntity.extend({
 
 		return false;
 	}
+});
+
+var Saw = me.ObjectEntity.extend({
+    init: function( x, y, settings ) {
+        this.parent( x, y, settings );
+        this.toprange = y;
+        this.bottomrange = y + settings.height;
+
+        this.changeDirection( false );
+        this.flipX( settings.direction || false );
+
+        this.animationspeed = 2;
+
+        this.setVelocity( 0, 1.5 );
+        this.gravity = 0;
+
+        this.collidable = true;
+        this.type = me.game.ENEMY_OBJECT;
+
+        this.addAnimation( "idle", [0, 1, 2] );
+        this.setCurrentAnimation( "idle" );
+    },
+
+    changeDirection: function( d ) {
+        this.direction = d;
+    },
+
+    onCollision: function( res, obj ) {
+        if ( obj == me.game.player ) {
+            obj.hit("saw");
+        }
+    },
+
+    update: function() {
+        if ( !this.visible ) {
+            return false;
+        }
+
+        this.parent();
+
+        // arbitrary math
+        this.vel.y = ( this.direction ? -1 : 1 ) * 1.5 * me.timer.tick;
+        this.pos.add( this.vel );
+
+        // Turn around at extents.
+        if( this.bottom > this.bottomrange || this.top < this.toprange ) {
+            this.changeDirection( ! this.direction );
+        }
+        return false;
+    }
+
+});
+
+var Bomb = me.ObjectEntity.extend({
+    init: function( x, y, settings )
+    {
+        this.parent( x, y, settings );
+        this.gravity = 0.0;
+        this.collidable = true;
+        this.type = "bomb";
+        this.updateColRect( -48, 144, -48, 144 );
+    },
+
+    die: function()
+    {
+        me.game.remove( this );
+        spawnParticle( this.pos.x - 48, this.pos.y - 48,
+            "explode", 144, [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z );
+    },
+
+    checkCollision: function( obj )
+    {
+        // remove bomb on hit
+        var retVal = this.parent( obj );
+        if ( retVal )
+        {
+            this.die();
+        }
+        return retVal;
+    }
 });
