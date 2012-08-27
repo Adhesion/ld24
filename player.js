@@ -148,6 +148,8 @@ var Player = me.ObjectEntity.extend(
 
     die: function( type )
     {
+        me.game.deathCount++;
+
         function unlock( skill ) {
             me.state.current().abilities[skill] = true;
         }
@@ -195,6 +197,8 @@ var Player = me.ObjectEntity.extend(
         if ( this.swimming != this.haveGills )
         {
             this.breath--;
+            if ( this.breath % 60 == 0 )
+                console.log( "held breath" );
 
             // 11 seconds for drown sound
             if ( this.breath < 660 && !this.drowning )

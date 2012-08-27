@@ -42,6 +42,8 @@ var jsApp =
         me.entityPool.add( "StoryNode", StoryNode );
         me.entityPool.add( "LevelChanger", LevelChanger );
 
+        me.game.deathCount = 0;
+
         me.debug.renderHitBox = false;
 
         // me.state.change( me.state.INTRO);
@@ -98,6 +100,7 @@ var PlayScreen = me.ScreenObject.extend(
     onResetEvent: function()
     {
         me.game.addHUD( 0, 0, me.video.getWidth(), me.video.getHeight() );
+        me.game.HUD.addItem( "deaths", new DeathDisplay( 15, 15 ) );
         this.startLevel( location.hash.substr(1) || "level1" );
     },
 
