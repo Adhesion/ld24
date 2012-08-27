@@ -85,6 +85,7 @@ var Player = me.ObjectEntity.extend(
        this.maxBreath = 1200;
        this.breath = this.maxBreath;
        this.drowning = false;
+       this.swimming = false;
 
        this.fallCounter = 0;
        this.impactCounter = 0;
@@ -193,12 +194,18 @@ var Player = me.ObjectEntity.extend(
             this.checkInput();
         }
 
+        function canBreatheWater( gills )
+        {
+            return ( gills == undefined ? false : gills );
+        }
+
         // check breath
-        if ( this.swimming != this.haveGills )
+        // can't do != due to undefined, no XOR... BOO JAVASCRIPT
+        if ( this.swimming != canBreatheWater( this.haveGills ) )
         {
             this.breath--;
             if ( this.breath % 60 == 0 )
-                console.log( "held breath" );
+                console.log( "held breath (swimming %i, gills %i)", this.swimming, canBreatheWater( this.haveGills ) );
 
             // 11 seconds for drown sound
             if ( this.breath < 660 && !this.drowning )
@@ -285,6 +292,7 @@ var Player = me.ObjectEntity.extend(
             }
             else if ( !this.swimming && colRes.obj.type == "water" )
             {
+                console.log( "into water" );
                 this.vel.y *= .5;
                 this.vel.x *= .5;
                 this.falling = false;
@@ -297,6 +305,7 @@ var Player = me.ObjectEntity.extend(
                     [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z + 1 );
                 if ( this.haveGills )
                 {
+                    console.log( "into water with gills, resetting breath" );
                     this.resetBreath();
                 }
             }
@@ -325,11 +334,13 @@ var Player = me.ObjectEntity.extend(
         // set swimming false if not colliding with anything & swimming
         else if( this.swimming )
         {
+            console.log( "out of water" );
             this.animationspeed = 4;
             this.swimming = false;
             this.gravity = this.origGravity;
             if ( !this.haveGills )
             {
+                console.log( "out of water, lungs, resetting breath" );
                 this.resetBreath();
             }
         }
