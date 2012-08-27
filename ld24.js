@@ -344,8 +344,8 @@ var SkillDisplay = TemporaryDisplay.extend({
  * on events. */
 var StoryDisplay = TemporaryDisplay.extend({
 
-    init: function() {
-        this.parent( 50, 100, {
+    init: function( ) {
+        this.parent( 50, 80, {
             font: new me.BitmapFont( "16x16_font", 16),
         });
         this.text = '';
