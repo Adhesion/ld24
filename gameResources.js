@@ -31,7 +31,11 @@ var gameResources =
 
     { name: "collision_tiles", type: "image", src: "data/collision_tiles.png" },
     { name: "maptile", type: "image", src: "data/maptile.png" },
-
+	
+	{ name: "forrest_bg", type: "image", src: "data/forrest_bg.png" },
+	{ name: "cave_bg", type: "image", src: "data/cave_bg.png" },
+	{ name: "tech_bg", type: "image", src: "data/tech_bg.png" },
+	
     { name: "testlevel", type: "tmx", src: "data/testlevel.tmx" },
     { name: "level1", type: "tmx", src: "data/level1.tmx" },
     { name: "level2", type: "tmx", src: "data/level2.tmx" },
