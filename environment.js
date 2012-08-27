@@ -13,7 +13,7 @@ var Water = me.InvisibleEntity.extend({
         this.gravity = 0.0;
         this.collidable = true;
         this.type = 'water';
-    },
+    }
 });
 
 

@@ -50,6 +50,35 @@ var Saw = me.ObjectEntity.extend({
 
 });
 
+var Bomb = me.ObjectEntity.extend({
+    init: function( x, y, settings )
+    {
+        this.parent( x, y, settings );
+        this.gravity = 0.0;
+        this.collidable = true;
+        this.type = "bomb";
+        this.updateColRect( -48, 144, -48, 144 );
+    },
+
+    die: function()
+    {
+        me.game.remove( this );
+        spawnParticle( this.pos.x - 48, this.pos.y - 48,
+            "explode", 144, [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z );
+    },
+
+    checkCollision: function( obj )
+    {
+        // remove bomb on hit
+        var retVal = this.parent( obj );
+        if ( retVal )
+        {
+            this.die();
+        }
+        return retVal;
+    }
+});
+
 var Enemy = me.ObjectEntity.extend({
 	init: function( x, y, settings ){
 		this.parent( x, y, settings );

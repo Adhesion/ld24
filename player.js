@@ -240,6 +240,10 @@ var Player = me.ObjectEntity.extend(
                     this.hit( colRes.obj.type );
                 }
             }
+            else if ( colRes.obj.type == "bomb" )
+            {
+                this.hit( colRes.obj.type );
+            }
             else if ( !this.swimming && colRes.obj.type == "water" ) {
                 this.vel.y *= .5;
                 this.vel.x *= .5;
@@ -264,7 +268,6 @@ var Player = me.ObjectEntity.extend(
                 if ( this.spikeHat )
                 {
                     me.game.remove( colRes.obj );
-                    // spawn balloon pop particle
                 }
             }
         }
@@ -279,7 +282,7 @@ var Player = me.ObjectEntity.extend(
         if ( this.isCurrentAnimation( "buttstomp" ) && !this.falling )
         {
             this.impactCounter = 10;
-            this.spawnParticle( this.pos.x, this.pos.y, "buttstompimpact", 144,
+            spawnParticle( this.pos.x, this.pos.y, "buttstompimpact", 144,
                 [ 0, 1, 2, 3, 4 ], 3, this.z - 1 );
         }
 
@@ -421,7 +424,7 @@ var Player = me.ObjectEntity.extend(
                 this.resetFall();
                 this.forceJump();
                 this.doubleJumped = true;
-                this.spawnParticle( this.pos.x, this.pos.y, "doublejump", 144,
+                spawnParticle( this.pos.x, this.pos.y, "doublejump", 144,
                     [ 0, 1, 2, 3, 4, 5 ], 3, this.z - 1 );
             }
         }
@@ -438,7 +441,7 @@ var Player = me.ObjectEntity.extend(
                 this.setVelocity( 5.0, 15.0 );
                 this.vel.y = -15.0;
                 this.rocketJumped = true;
-                this.spawnParticle( this.pos.x, this.pos.y + 25, "explode", 144,
+                spawnParticle( this.pos.x, this.pos.y + 25, "explode", 144,
                     [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z - 1 );
             }
         }
@@ -451,21 +454,6 @@ var Player = me.ObjectEntity.extend(
             this.vel.y = 15.0;
             this.buttStomped = true;
         }
-    },
-
-    spawnParticle: function( x, y, sprite, spritewidth, frames, speed, z )
-    {
-        var settings = new Object();
-        settings.image = sprite;
-        settings.spritewidth = spritewidth;
-
-        var particle = new me.ObjectEntity( x, y, settings );
-        particle.animationspeed = speed;
-        particle.addAnimation( "play", frames );
-        particle.setCurrentAnimation( "play",
-            function() { me.game.remove( particle ) } );
-        me.game.add( particle, z );
-        me.game.sort();
     },
 
     // TODO this code is redundant and terrible. why does the commented one not

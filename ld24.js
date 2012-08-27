@@ -36,6 +36,7 @@ var jsApp =
         me.entityPool.add( "Saw", Saw );
         me.entityPool.add( "water", Water );
         me.entityPool.add( "rock", Rock );
+        me.entityPool.add( "bomb", Bomb );
         me.entityPool.add( "spikes", Spikes );
         me.entityPool.add( "balloon", Balloon );
         me.entityPool.add( "StoryNode", StoryNode);
@@ -321,6 +322,21 @@ var StoryNode = me.InvisibleEntity.extend({
         }
     }
 });
+
+function spawnParticle( x, y, sprite, spritewidth, frames, speed, z )
+{
+    var settings = new Object();
+    settings.image = sprite;
+    settings.spritewidth = spritewidth;
+
+    var particle = new me.ObjectEntity( x, y, settings );
+    particle.animationspeed = speed;
+    particle.addAnimation( "play", frames );
+    particle.setCurrentAnimation( "play",
+        function() { me.game.remove( particle ) } );
+    me.game.add( particle, z );
+    me.game.sort();
+}
 
 window.onReady( function()
 {
