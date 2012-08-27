@@ -49,7 +49,7 @@
     <property name="spritewidth" value="144"/>
    </properties>
   </object>
-  <object name="rock" x="466" y="4252" width="57" height="51">
+  <object name="rock" x="2116" y="4198" width="57" height="51">
    <properties>
     <property name="image" value="rock"/>
     <property name="spritewidth" value="48"/>
@@ -61,7 +61,7 @@
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
-  <object name="balloon" x="681" y="4239" width="48" height="48">
+  <object name="balloon" x="660" y="4246" width="48" height="48">
    <properties>
     <property name="image" value="balloon"/>
     <property name="spritewidth" value="48"/>
@@ -88,6 +88,12 @@
   <object name="balloon" x="843" y="4240" width="48" height="48">
    <properties>
     <property name="image" value="balloon"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
+  <object name="bomb" x="508" y="4382" width="56" height="51">
+   <properties>
+    <property name="image" value="bomb"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
