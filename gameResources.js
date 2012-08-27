@@ -20,6 +20,7 @@ var gameResources =
     { name: "title_bg", type: "image", src: "data/title_bg.png" },
     { name: "title_cta", type: "image", src: "data/title_cta.png" },
     { name: "title_overlay", type: "image", src: "data/title_overlay.png" },
+    { name: "gameover_overlay", type: "image", src: "data/gameover_overlay.png" },
 
     { name: "player", type: "image", src: "data/player.png" },
     { name: "enemy", type: "image", src: "data/baddie.png" },

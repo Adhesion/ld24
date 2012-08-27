@@ -49,7 +49,7 @@
     <property name="spritewidth" value="144"/>
    </properties>
   </object>
-  <object name="rock" x="2116" y="4198" width="57" height="51">
+  <object name="rock" x="1860" y="4265" width="57" height="51">
    <properties>
     <property name="image" value="rock"/>
     <property name="spritewidth" value="48"/>
@@ -94,6 +94,12 @@
   <object name="bomb" x="508" y="4382" width="56" height="51">
    <properties>
     <property name="image" value="bomb"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
+  <object name="rock" x="888" y="4375" width="57" height="51">
+   <properties>
+    <property name="image" value="rock"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>

@@ -48,8 +48,7 @@ var jsApp =
 
         me.debug.renderHitBox = false;
 
-        // me.state.change( me.state.INTRO);
-        me.state.change( me.state.INTRO );
+        me.state.change( me.state.INTRO);
     }
 }
 
@@ -344,8 +343,8 @@ var SkillDisplay = TemporaryDisplay.extend({
  * on events. */
 var StoryDisplay = TemporaryDisplay.extend({
 
-    init: function() {
-        this.parent( 50, 100, {
+    init: function( ) {
+        this.parent( 50, 80, {
             font: new me.BitmapFont( "16x16_font", 16),
         });
         this.text = '';
@@ -414,7 +413,7 @@ var TitleScreen = me.ScreenObject.extend(
         }
 
         me.input.bindKey( me.input.KEY.ENTER, "enter", true );
-        //me.audio.playTrack( "theme" );
+        me.audio.playTrack( "theme" );
     },
 
     update: function()
@@ -466,8 +465,8 @@ var GameOverScreen = TitleScreen.extend(
         this.parent( true );
         this.fontSmall = new me.BitmapFont( "16x16_font", 16 );
         this.fontSmall.set( "center", 1 );
-        // TODO I don't think this works, have to override update :(
-        me.input.unbindKey( me.input.KEY.ENTER );
+        this.fontLarge = new me.BitmapFont( "32x32_font", 32 );
+        this.fontLarge.set( "center", 1 );
     },
 
     update: function()
@@ -477,7 +476,13 @@ var GameOverScreen = TitleScreen.extend(
 
     onResetEvent: function()
     {
-        this.parent();
+        if ( !this.backgroundImg )
+        {
+            this.backgroundImg = me.loader.getImage( "title_bg" );
+            this.overlay = me.loader.getImage( "gameover_overlay" );
+        }
+
+        me.audio.playTrack( "theme" );
     },
 
     draw: function( context )
@@ -485,6 +490,7 @@ var GameOverScreen = TitleScreen.extend(
         context.drawImage( this.backgroundImg, 0, 0 - this.yCounter );
         context.drawImage( this.backgroundImg, 0, 0 - this.yCounter + 1200 );
         context.drawImage( this.overlay, 0, 0 );
+        this.fontLarge.draw( context, "CONGRATULATION!", 400, 200 );
         this.fontSmall.draw( context, "DEATHS: " + me.game.deathCount,
             400, 380 );
     }

@@ -52,11 +52,11 @@ var Player = me.ObjectEntity.extend(
        }
 
        // abilities
-       this.haveDoubleJump = unlocked('doubleJump') || true;
-       this.haveRocketJump = unlocked('rocketJump') || true;
-       this.haveButtStomp = unlocked('buttStomp') || true;
-       this.haveWallStick = unlocked('wallStick') || true;
-       this.spikeHat = unlocked('spikeHat') || true;
+       this.haveDoubleJump = unlocked('doubleJump');
+       this.haveRocketJump = unlocked('rocketJump');
+       this.haveButtStomp = unlocked('buttStomp');
+       this.haveWallStick = unlocked('wallStick');
+       this.spikeHat = unlocked('spikeHat');
        this.haveGills = unlocked('gills');
 
        //var shieldsettings = new Object();
@@ -236,13 +236,14 @@ var Player = me.ObjectEntity.extend(
             }
         }
 
-        if ( this.falling && !this.wallStuck )
+        // check collision against environment
+        var envRes = this.updateMovement();
+
+        if ( this.falling && !this.wallStuck && !this.swimming &&
+             this.vel.y > 1.0 )
         {
             this.fallCounter++;
         }
-
-        // check collision against environment
-        var envRes = this.updateMovement();
 
         if (
             this.haveWallStick &&
@@ -264,7 +265,7 @@ var Player = me.ObjectEntity.extend(
         }
         else if ( envRes.y > 0 )
         {
-            if ( this.fallCounter > 130 )
+            if ( this.fallCounter > 65 )
             {
                 this.hit( "fall" );
             }
@@ -289,10 +290,6 @@ var Player = me.ObjectEntity.extend(
         else if ( envRes.y < 0 )
         {
             //console.log( "ceiling?" );
-        }
-        else if ( this.falling )
-        {
-            this.fallCounter++;
         }
 
         // check collision against other objects
@@ -340,7 +337,7 @@ var Player = me.ObjectEntity.extend(
                 this.vel.y = 0;
                 if ( this.spikeHat )
                 {
-                    colRes.collidable = false;
+                    colRes.obj.collidable = false;
                     me.audio.play( "balloonpop" );
                     colRes.obj.setCurrentAnimation( "pop", function()
                         {
