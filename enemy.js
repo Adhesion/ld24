@@ -64,7 +64,7 @@ var Bomb = me.ObjectEntity.extend({
     {
         me.game.remove( this );
         spawnParticle( this.pos.x - 48, this.pos.y - 48,
-            "explode", 144, [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z - 1 );
+            "explode", 144, [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z );
     },
 
     checkCollision: function( obj )
