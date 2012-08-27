@@ -107,8 +107,8 @@ var Player = me.ObjectEntity.extend(
        me.input.bindKey( me.input.KEY.X, "jump", true );
        me.input.bindKey( me.input.KEY.C, "rocket" );
        me.input.bindKey( me.input.KEY.V, "buttstomp" );
-       me.input.bindKey( me.input.KEY.B, "attack" );
-       me.input.bindKey( me.input.KEY.N, "shield" );
+       //me.input.bindKey( me.input.KEY.B, "attack" );
+       //me.input.bindKey( me.input.KEY.N, "shield" );
 
        me.game.player = this;
    },
@@ -193,7 +193,6 @@ var Player = me.ObjectEntity.extend(
             this.vel.y = 0.0;
             this.resetFall();
             this.buttStomped = false;
-            console.log( "stuck" );
         }
         else if ( envRes.y > 0 )
         {
@@ -253,7 +252,6 @@ var Player = me.ObjectEntity.extend(
                 this.gravity = 0;
                 this.setCurrentAnimation( "swim" );
                 this.animationspeed = 7;
-                console.log( "hit water" );
                 spawnParticle( this.pos.x, colRes.obj.pos.y - 192, "splash", 144,
                     [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z + 1 );
             }
@@ -282,7 +280,6 @@ var Player = me.ObjectEntity.extend(
         // set swimming false if not colliding with anything & swimming
         else if( this.swimming )
         {
-            console.log( "got out of water" );
             this.animationspeed = 4;
             this.swimming = false;
             this.gravity = this.origGravity;
@@ -368,14 +365,21 @@ var Player = me.ObjectEntity.extend(
     {
         if ( this.wallStuck )
         {
-            if ( me.input.isKeyPressed( "jump" ) )
+            // TODO why do i need to do this? (iskeypressed fails second time)
+            var jumpkey = me.input.isKeyPressed( "jump" );
+            if ( jumpkey || me.input.isKeyPressed( "down") )
             {
                 this.gravity = this.origGravity;
-                this.forceJump();
                 this.wallStuck = false;
-                this.vel.x = this.wallStuckDir * -10.0;
-                //this.vel.y = -20.0;
                 this.wallStuckCounter = 15;
+                //this.vel.y = -20.0;
+
+                if ( jumpkey )
+                {
+                    this.flipX( this.wallStuckDir > 0 );
+                    this.forceJump();
+                    this.vel.x = this.wallStuckDir * -10.0;
+                }
             }
             return;
         }
