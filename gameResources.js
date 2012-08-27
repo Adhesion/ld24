@@ -31,6 +31,7 @@ var gameResources =
     { name: "bomb", type: "image", src: "data/bomb.png" },
     { name: "spikes", type: "image", src: "data/spike.png" },
     { name: "balloon", type: "image", src: "data/baloon.png" },
+    { name: "fruit", type: "image", src: "data/fruit.png" },
 
     { name: "collision_tiles", type: "image", src: "data/collision_tiles.png" },
     { name: "maptile", type: "image", src: "data/maptile.png" },
@@ -53,8 +54,8 @@ var gameResources =
     { name: "level11", type: "tmx", src: "data/level11.tmx" },
     { name: "level12", type: "tmx", src: "data/level12.tmx" },
     { name: "level13", type: "tmx", src: "data/level13.tmx" },
-    { name: "level13", type: "tmx", src: "data/level14.tmx" },
-    { name: "level13", type: "tmx", src: "data/level15.tmx" },
+    { name: "level14", type: "tmx", src: "data/level14.tmx" },
+    { name: "level15", type: "tmx", src: "data/level15.tmx" },
 
 
 
