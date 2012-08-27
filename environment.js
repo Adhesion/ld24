@@ -28,6 +28,11 @@ var Rock = me.ObjectEntity.extend(
 
     update: function()
     {
+        if ( !this.visible )
+        {
+            return;
+        }
+
         if ( Math.abs( this.pos.x - me.game.player.getCenter().x ) < 50 )
         {
             this.gravity = 0.9;
