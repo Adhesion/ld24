@@ -40,8 +40,15 @@ var Player = me.ObjectEntity.extend(
        this.addAnimation( "swim", [ 20, 21, 22, 23 ] );
 
 
+       var vars = {};
+       var parts = window.location.href.replace(
+           /[?&]+([^=&]+)=([^&]*)/gi,
+           function(m,key,value) {
+               vars[key] = value;
+           }
+       );
        function unlocked( skill ) {
-           var state = me.state.current().abilities[skill];
+           var state = me.state.current().abilities[skill] || vars[skill];
            return state;
        }
 
@@ -240,8 +247,8 @@ var Player = me.ObjectEntity.extend(
                 this.resetFall();
                 this.swimming = true;
                 this.gravity = 0;
-				this.setCurrentAnimation( "swim" );
-				this.animationspeed = 7;
+                this.setCurrentAnimation( "swim" );
+                this.animationspeed = 7;
             }
             else if ( colRes.obj.type == "spikes" )
             {
