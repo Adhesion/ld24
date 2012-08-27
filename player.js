@@ -89,6 +89,7 @@ var Player = me.ObjectEntity.extend(
 
        this.fallCounter = 0;
        this.impactCounter = 0;
+       this.bubbleCounter = 0;
 
        this.hp = 1;
        if ( this.shield )
@@ -236,6 +237,8 @@ var Player = me.ObjectEntity.extend(
             }
         }
 
+        var lastFalling = this.falling;
+
         // check collision against environment
         var envRes = this.updateMovement();
 
@@ -282,10 +285,14 @@ var Player = me.ObjectEntity.extend(
                 }
             }
 
-            this.rocketJumped = false;
-            this.doubleJumped = false;
-            this.buttStomped = false;
-            this.resetFall();
+            if ( lastFalling )
+            {
+                this.rocketJumped = false;
+                this.doubleJumped = false;
+                this.buttStomped = false;
+                this.resetFall();
+                me.audio.play( "step" );
+            }
         }
         else if ( envRes.y < 0 )
         {
@@ -416,10 +423,26 @@ var Player = me.ObjectEntity.extend(
             else this.setCurrentAnimation( "idle" );
         }
 
+        // hack to get current frame
+        if ( this.isCurrentAnimation( "run" ) )
+        {
+            if ( this.current.idx == 0 )
+            {
+                this.stepped = false;
+            }
+            else if ( this.current.idx == 2 && !this.stepped )
+            {
+                me.audio.play( "step" );
+                this.stepped = true;
+            }
+        }
+
         // bubble spawn if swimming
         if ( this.swimming )
         {
-            if ( Math.random() < 0.0075 )
+            this.bubbleCounter++;
+
+            if ( this.bubbleCounter == 150 )
             {
                 var xPos = this.pos.x;
                 // hack of a method to check for flip
@@ -427,11 +450,18 @@ var Player = me.ObjectEntity.extend(
                 {
                     xPos += 120;
                 }
-                var bubble = spawnParticle( xPos, this.pos.y + 76,
-                                            "bubble",
-                                            24, [ 0, 1, 2, 3, 4, 5, 6 ], 6,
-                                            this.z + 1 );
-                // bubble pop sound?
+                var blebsettings = new Object();
+                blebsettings.image = "bubble";
+                blebsettings.spritewidth = 24;
+
+                var bleb = new Bubble( xPos, this.pos.y + 76, this.z + 1,
+                    blebsettings );
+                bleb.setCurrentAnimation( "idle",
+                    function() { me.game.remove( this ) } );
+                me.game.add( bleb );
+                me.game.sort();
+
+                this.bubbleCounter = 0;
             }
         }
 

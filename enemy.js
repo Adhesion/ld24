@@ -97,6 +97,10 @@ var Saw = me.ObjectEntity.extend({
 
         this.addAnimation( "idle", [0, 1, 2] );
         this.setCurrentAnimation( "idle" );
+        this.soundCounter = 0;
+        this.soundName = settings.underwater ? "watersaw" : "saw";
+        this.soundCounter = 50;
+        this.soundCounterMax = this.soundCounter;
     },
 
     changeDirection: function( d ) {
@@ -111,8 +115,21 @@ var Saw = me.ObjectEntity.extend({
 
     update: function() {
         if ( !this.visible ) {
+            this.soundCounter = this.soundCounterMax - 1;
             return false;
         }
+
+        // small hack - for some reason newly init'd
+        // objs are visible for first frame so don't play immediately
+        if ( this.soundCounter == this.soundCounterMax - 1 )
+        {
+            me.audio.play( this.soundName );
+        }
+        else if ( this.soundCounter == 0 )
+        {
+            this.soundCounter = this.soundCounterMax;
+        }
+        this.soundCounter--;
 
         this.parent();
 

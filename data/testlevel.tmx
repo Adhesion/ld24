@@ -103,5 +103,31 @@
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
+  <object name="saw" x="2193" y="4204" width="56" height="207">
+   <properties>
+    <property name="direction" value="1"/>
+    <property name="image" value="saw"/>
+    <property name="spriteheight" value="96"/>
+    <property name="spritewidth" value="48"/>
+    <property name="underwater" value="true"/>
+   </properties>
+  </object>
+  <object name="saw" x="2947" y="4178" width="56" height="207">
+   <properties>
+    <property name="direction" value="1"/>
+    <property name="image" value="saw"/>
+    <property name="spriteheight" value="96"/>
+    <property name="spritewidth" value="48"/>
+   </properties>
+  </object>
+  <object name="saw" x="232" y="3853" width="56" height="207">
+   <properties>
+    <property name="direction" value="1"/>
+    <property name="image" value="saw"/>
+    <property name="spriteheight" value="96"/>
+    <property name="spritewidth" value="48"/>
+    <property name="underwater" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

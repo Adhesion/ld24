@@ -67,6 +67,32 @@ var Rock = me.ObjectEntity.extend(
     }
 });
 
+var Bubble = me.ObjectEntity.extend(
+{
+    init: function( x, y, z, settings )
+    {
+        this.parent( x, y, settings );
+        this.gravity = 0.0;
+        this.vel.y = -0.5;
+        this.collidable = false;
+        this.addAnimation( "idle", [ 0, 1, 2, 3, 4, 5, 6 ] );
+        this.setCurrentAnimation( "idle",
+            function() { me.game.remove( this ) } );
+        this.animationSpeed = 3;
+        me.audio.play( "bubble" );
+        this.z = z;
+    },
+
+    update: function()
+    {
+        // TODO for some reason this didn't work as an anonymous function?
+        // (parent)
+        this.updateMovement();
+        this.parent( this );
+        return true;
+    }
+});
+
 // TODO these might not have to be classes, maybe just entity props in map?
 
 var Spikes = me.ObjectEntity.extend(

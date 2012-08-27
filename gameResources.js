@@ -80,12 +80,16 @@ var gameResources =
     { name: "buttstomp", type: "audio", src: "data/", channels : 2 },
     { name: "die", type: "audio", src: "data/", channels : 2 },
     { name: "doublejump", type: "audio", src: "data/", channels : 2 },
+    { name: "eat", type: "audio", src: "data/", channels : 2 },
     { name: "enemydeath", type: "audio", src: "data/", channels : 2 },
     { name: "explosion", type: "audio", src: "data/", channels : 2 },
     { name: "hit", type: "audio", src: "data/", channels : 2 },
     { name: "jump", type: "audio", src: "data/", channels : 2 },
+    { name: "saw", type: "audio", src: "data/", channels : 2 },
     { name: "spawn", type: "audio", src: "data/", channels : 2 },
     { name: "splash", type: "audio", src: "data/", channels : 2 },
     { name: "splashout", type: "audio", src: "data/", channels : 2 },
-    { name: "wallstick", type: "audio", src: "data/", channels : 2 }
+    { name: "step", type: "audio", src: "data/", channels : 2 },
+    { name: "wallstick", type: "audio", src: "data/", channels : 2 },
+    { name: "watersaw", type: "audio", src: "data/", channels : 2 }
 ];
