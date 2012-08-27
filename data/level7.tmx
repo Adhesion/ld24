@@ -113,7 +113,7 @@
   </object>
   <object name="spikes" x="717" y="1154" width="48" height="48">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="spikes"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
