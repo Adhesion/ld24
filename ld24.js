@@ -27,7 +27,9 @@ var jsApp =
     loaded: function()
     {
         me.state.set( me.state.INTRO, new RadmarsScreen() );
+        me.state.set( me.state.MENU, new TitleScreen() );
         me.state.set( me.state.PLAY, new PlayScreen() );
+        me.state.set( me.state.GAMEOVER, new GameOverScreen() );
 
         me.state.transition( "fade", "#000000", 150 );
 
@@ -352,6 +354,94 @@ var StoryNode = me.InvisibleEntity.extend({
             me.state.current().showStoryText( this.text );
             this.toggled = true;
         }
+    }
+});
+
+var TitleScreen = me.ScreenObject.extend(
+{
+    init: function()
+    {
+        this.parent( true );
+        this.yCounter = 0;
+    },
+
+    onResetEvent: function()
+    {
+        if ( !this.backgroundImg )
+        {
+            this.backgroundImg = me.loader.getImage( "title_bg" );
+            this.cta = me.loader.getImage( "title_cta" );
+            this.overlay = me.loader.getImage( "title_overlay" );
+        }
+
+        me.input.bindKey( me.input.KEY.ENTER, "enter", true );
+        //me.audio.playTrack( "theme" );
+    },
+
+    update: function()
+    {
+        if( me.input.isKeyPressed( 'enter' ) )
+        {
+            me.state.change( me.state.PLAY );
+        }
+        this.updateScroll();
+    },
+
+    updateScroll: function()
+    {
+        this.yCounter++;
+        if ( this.yCounter > 1200 )
+        {
+            this.yCounter = 0;
+        }
+
+        me.game.repaint();
+    },
+
+    draw: function( context )
+    {
+        // draw 2 backgrounds to scroll properly
+        context.drawImage( this.backgroundImg, 0, 0 - this.yCounter );
+        context.drawImage( this.backgroundImg, 0, 0 - this.yCounter + 1200 );
+        context.drawImage( this.overlay, 0, 0 );
+        context.drawImage( this.cta, 296, 400 );
+    },
+
+    onDestroyEvent: function()
+    {
+        me.input.unbindKey( me.input.KEY.ENTER );
+        me.audio.stopTrack();
+    }
+});
+
+var GameOverScreen = TitleScreen.extend(
+{
+    init: function()
+    {
+        this.parent( true );
+        this.fontSmall = new me.BitmapFont( "16x16_font", 16 );
+        this.fontSmall.set( "center", 1 );
+        // TODO I don't think this works, have to override update :(
+        me.input.unbindKey( me.input.KEY.ENTER );
+    },
+
+    update: function()
+    {
+        this.updateScroll();
+    },
+
+    onResetEvent: function()
+    {
+        this.parent();
+    },
+
+    draw: function( context )
+    {
+        context.drawImage( this.backgroundImg, 0, 0 - this.yCounter );
+        context.drawImage( this.backgroundImg, 0, 0 - this.yCounter + 1200 );
+        context.drawImage( this.overlay, 0, 0 );
+        this.fontSmall.draw( context, "DEATHS: " + me.game.deathCount,
+            400, 380 );
     }
 });
 

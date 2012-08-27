@@ -17,6 +17,10 @@ var gameResources =
     { name: "intro_radmars1", type: "image", src: "data/intro_radmars1.png" },
     { name: "intro_radmars2", type: "image", src: "data/intro_radmars2.png" },
 
+    { name: "title_bg", type: "image", src: "data/title_bg.png" },
+    { name: "title_cta", type: "image", src: "data/title_cta.png" },
+    { name: "title_overlay", type: "image", src: "data/title_overlay.png" },
+
     { name: "player", type: "image", src: "data/player.png" },
     { name: "enemy", type: "image", src: "data/baddie.png" },
     { name: "saw", type: "image", src: "data/saw.png" },
