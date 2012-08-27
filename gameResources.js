@@ -53,8 +53,8 @@ var gameResources =
     { name: "level11", type: "tmx", src: "data/level11.tmx" },
     { name: "level12", type: "tmx", src: "data/level12.tmx" },
     { name: "level13", type: "tmx", src: "data/level13.tmx" },
-    { name: "level13", type: "tmx", src: "data/level14.tmx" },
-    { name: "level13", type: "tmx", src: "data/level15.tmx" },
+    { name: "level14", type: "tmx", src: "data/level14.tmx" },
+    { name: "level15", type: "tmx", src: "data/level15.tmx" },
 
 
 
