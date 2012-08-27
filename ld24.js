@@ -226,6 +226,7 @@ var LevelChanger = me.LevelEntity.extend({
     {
         this.fruit.setCurrentAnimation( "eat" );
         me.audio.play( "eat" );
+        this.collidable = false;
         // hack to stop drown sound
         if ( me.game.player.drowning )
         {

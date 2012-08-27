@@ -317,6 +317,7 @@ var Player = me.ObjectEntity.extend(
                 this.vel.y *= .5;
                 this.vel.x *= .5;
                 this.falling = false;
+                this.jumping = false;
                 this.resetFall();
                 this.swimming = true;
                 this.gravity = 0;
@@ -402,11 +403,11 @@ var Player = me.ObjectEntity.extend(
         else if ( this.rocketJumped && ! this.falling) {
             this.setCurrentAnimation( "jump_extra" );
         }
-        else if ( this.jumping )
+        else if ( this.jumping && !this.swimming )
         {
             this.setCurrentAnimation( "jump" );
         }
-        else if ( this.falling )
+        else if ( this.falling && !this.swimming )
         {
             this.setCurrentAnimation( "fall" );
         }
@@ -558,7 +559,8 @@ var Player = me.ObjectEntity.extend(
 
             // TODO Ugly hacks
             if ( me.input.isKeyPressed( "jump" ) ) {
-                this.doJump();
+                //this.doJump();
+                this.vel.y = -movespeed * 1.5;
                 me.audio.play( "jump" );
             }
             return;
