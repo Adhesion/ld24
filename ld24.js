@@ -512,7 +512,7 @@ function spawnParticle( x, y, sprite, spritewidth, frames, speed, z )
     me.game.add( particle, z );
     me.game.sort();
 
-    return particle;
+    //return particle;
 }
 
 window.onReady( function()

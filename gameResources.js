@@ -25,7 +25,8 @@ var gameResources =
     { name: "player", type: "image", src: "data/player.png" },
     { name: "enemy", type: "image", src: "data/baddie.png" },
     { name: "saw", type: "image", src: "data/saw.png" },
-
+    { name: "skull", type: "image", src: "data/skull.png" },
+    { name: "egg", type: "image", src: "data/egg.png" },
     { name: "shield", type: "image", src: "data/shield.png" },
     { name: "buttstompimpact", type: "image", src: "data/buttstompimpact.png" },
     { name: "doublejump", type: "image", src: "data/doublejump.png" },
