@@ -39,7 +39,6 @@ var Player = me.ObjectEntity.extend(
        this.addAnimation( "swim_idle", [ 16, 17, 18, 19 ] );
        this.addAnimation( "swim", [ 20, 21, 22, 23 ] );
 
-
        var vars = {};
        var parts = window.location.href.replace(
            /[?&]+([^=&]+)=([^&]*)/gi,
@@ -295,7 +294,7 @@ var Player = me.ObjectEntity.extend(
         {
             this.impactCounter = 10;
             spawnParticle( this.pos.x, this.pos.y, "buttstompimpact", 144,
-                [ 0, 1, 2, 3, 4 ], 3, this.z - 1 );
+                [ 0, 1, 2, 3, 4 ], 3, this.z + 1 );
         }
 
         if( this.hp <= 0)
@@ -437,7 +436,7 @@ var Player = me.ObjectEntity.extend(
                 this.forceJump();
                 this.doubleJumped = true;
                 spawnParticle( this.pos.x, this.pos.y, "doublejump", 144,
-                    [ 0, 1, 2, 3, 4, 5 ], 3, this.z - 1 );
+                    [ 0, 1, 2, 3, 4, 5 ], 3, this.z + 1 );
             }
         }
 
@@ -454,7 +453,7 @@ var Player = me.ObjectEntity.extend(
                 this.vel.y = -15.0;
                 this.rocketJumped = true;
                 spawnParticle( this.pos.x, this.pos.y + 25, "explode", 144,
-                    [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z - 1 );
+                    [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z + 1 );
             }
         }
 
