@@ -308,8 +308,8 @@ var SkillDisplay = TemporaryDisplay.extend({
         if( item == 'doubleJump') return 'double jump';
         if( item == 'shield') return 'shield one hit';
         if( item == 'spikeHat') return 'poke things with your head';
-        if( item == 'buttStomp' ) return 'fall quickly';
-        if( item == 'rocketJump' ) return 'ride the rocket';
+        if( item == 'buttStomp' ) return 'buttstomp (press c)';
+        if( item == 'rocketJump' ) return 'ride the rocket (press v)';
         if( item == 'wallStick' ) return 'claw into the wall';
         // fallback...
         return item;

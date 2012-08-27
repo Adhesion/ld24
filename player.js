@@ -110,8 +110,8 @@ var Player = me.ObjectEntity.extend(
        me.input.bindKey( me.input.KEY.LEFT, "left" );
        me.input.bindKey( me.input.KEY.RIGHT, "right" );
        me.input.bindKey( me.input.KEY.X, "jump", true );
-       me.input.bindKey( me.input.KEY.C, "rocket" );
-       me.input.bindKey( me.input.KEY.V, "buttstomp" );
+       me.input.bindKey( me.input.KEY.V, "rocket" );
+       me.input.bindKey( me.input.KEY.C, "buttstomp" );
        //me.input.bindKey( me.input.KEY.B, "attack" );
        //me.input.bindKey( me.input.KEY.N, "shield" );
        me.input.bindKey( me.input.KEY.A, "abilities" );
