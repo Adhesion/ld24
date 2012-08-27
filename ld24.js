@@ -414,7 +414,7 @@ var TitleScreen = me.ScreenObject.extend(
         }
 
         me.input.bindKey( me.input.KEY.ENTER, "enter", true );
-        //me.audio.playTrack( "theme" );
+        me.audio.playTrack( "theme" );
     },
 
     update: function()
