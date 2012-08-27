@@ -83,5 +83,9 @@ var Balloon = me.ObjectEntity.extend(
         this.gravity = 0.0;
         this.collidable = true;
         this.type = "balloon";
+
+        this.addAnimation( "idle", [ 0 ] );
+        this.addAnimation( "pop", [ 1, 2, 3 ] );
+        this.setCurrentAnimation( "idle" );
     }
 });

@@ -267,7 +267,12 @@ var Player = me.ObjectEntity.extend(
                 this.vel.y = 0;
                 if ( this.spikeHat )
                 {
-                    me.game.remove( colRes.obj );
+                    colRes.collidable = false;
+                    colRes.obj.setCurrentAnimation( "pop", function()
+                        {
+                            me.game.remove( this );
+                            me.game.sort();
+                        } );
                 }
             }
         }
