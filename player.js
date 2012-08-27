@@ -114,6 +114,7 @@ var Player = me.ObjectEntity.extend(
        me.input.bindKey( me.input.KEY.V, "buttstomp" );
        //me.input.bindKey( me.input.KEY.B, "attack" );
        //me.input.bindKey( me.input.KEY.N, "shield" );
+       me.input.bindKey( me.input.KEY.A, "abilities" );
 
        me.game.player = this;
    },
@@ -451,6 +452,15 @@ var Player = me.ObjectEntity.extend(
 
     checkInput: function()
     {
+        if ( me.input.isKeyPressed( "abilities" ) )
+        {
+            if ( me.state.current().skillDisplay )
+            {
+                // TODO this is broken atm
+                // me.state.current().skillDisplay.reset( "skillDisplay" );
+            }
+        }
+
         if ( this.wallStuck )
         {
             // TODO why do i need to do this? (iskeypressed fails second time)

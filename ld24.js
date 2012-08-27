@@ -55,7 +55,6 @@ var jsApp =
 
 var PlayScreen = me.ScreenObject.extend(
 {
-
     /** Session persistence for unlocked abilities. */
     abilities: {
     },
@@ -228,16 +227,18 @@ var TemporaryDisplay = me.HUD_Item.extend({
         this.parent( x, y, settings );
         this.font = settings.font || new me.BitmapFont( "32x32_font", 32 );
         this.font.set("left", 1);
+        this.timeout = 2000;
     },
 
     /** Adds the display and resets the object. After a X ms timeout the
      * object goes away. */
     reset: function( item ) {
         this.parent();
+        // TODO might be redundant if we call this again before timeout?
         me.game.HUD.addItem( item, this );
         window.setTimeout( function() {
             me.game.HUD.removeItem( item );
-        }, 5000 );
+        }, this.timeout );
     },
 
     /** This should be overwritten. */
@@ -265,6 +266,7 @@ var SkillDisplay = TemporaryDisplay.extend({
             font: new me.BitmapFont( "16x16_font", 16),
         });
         this.text = '';
+        this.timeout = 5000;
     },
 
     skill: function( item ) {
