@@ -64,6 +64,8 @@ var PlayScreen = me.ScreenObject.extend(
         this.storyDisplay = new StoryDisplay();
         this.levelDisplay = new LevelDisplay();
         this.skillDisplay = new SkillDisplay();
+
+        this.music = "";
     },
 
     showStoryText: function( text )
@@ -90,11 +92,36 @@ var PlayScreen = me.ScreenObject.extend(
         this.skillDisplay.reset('skillDisplay');
     },
 
+    getCurrentMusic: function()
+    {
+        return this.music;
+    },
+
     startLevel: function( level )
     {
-        this.changeLevel( );
+        this.changeLevel();
         me.levelDirector.loadLevel( level );
         me.game.sort();
+
+        /*this.lastMusic = this.music;
+        if ( this.level == 1 )
+        {
+
+        }
+        else if ( this.level == 6 )
+        {
+
+        }
+        else if ( this.level == 11 )
+        {
+
+        }
+
+        if ( this.lastMusic != this.music )
+        {
+            me.audio.stopTrack();
+            me.audio.playTrack( music );
+        }*/
     },
 
     // this will be called on state change -> this
