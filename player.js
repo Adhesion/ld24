@@ -120,8 +120,14 @@ var Player = me.ObjectEntity.extend(
        me.game.player = this;
 
        // TODO hack: z not set yet so do constant z
-       spawnParticle( this.pos.x, this.pos.y, "egg", 144,
-           [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ], 7, 10 );
+       //var egg = spawnParticle( this.pos.x, this.pos.y, "egg", 144,
+       //    [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ], 7, 10 );
+       var eggsettings = new Object();
+       eggsettings.image = "egg";
+       eggsettings.spritewidth = 144;
+       var egg = new Egg( this.pos.x, this.pos.y, 10, eggsettings );
+       me.game.add( egg );
+       me.game.sort();
        me.audio.play( "spawn" );
    },
 
@@ -290,7 +296,7 @@ var Player = me.ObjectEntity.extend(
                 }
             }
 
-            if ( lastFalling )
+            if ( lastFalling && !this.falling )
             {
                 this.rocketJumped = false;
                 this.doubleJumped = false;
