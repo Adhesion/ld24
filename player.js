@@ -195,6 +195,19 @@ var Player = me.ObjectEntity.extend(
             {
                 this.hit( "fall" );
             }
+
+            if ( envRes.yprop.isBreakable && this.buttStomped )
+            {
+                // terrible hack - can't seem to gettile from collision map so
+                // indiscriminately destroy 3tiles
+                for ( var i = envRes.ytile.row - 1; i <= envRes.ytile.row + 1;
+                    i++ )
+                {
+                    me.game.currentLevel.clearTile( i, envRes.ytile.col );
+                    me.game.collisionMap.clearTile( i, envRes.ytile.col );
+                }
+            }
+
             this.rocketJumped = false;
             this.doubleJumped = false;
             this.buttStomped = false;
@@ -424,7 +437,7 @@ var Player = me.ObjectEntity.extend(
         }
 
         if ( me.input.isKeyPressed( "buttstomp" ) && this.haveButtStomp &&
-            !this.buttStomped )
+            !this.buttStomped && ( this.jumping || this.falling ) )
         {
             // see above
             this.setVelocity( 5.0, 15.0 );
