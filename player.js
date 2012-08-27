@@ -194,7 +194,6 @@ var Player = me.ObjectEntity.extend(
         // check breath
         if ( this.swimming != this.haveGills )
         {
-            console.log( "held breath" );
             this.breath--;
 
             // 11 seconds for drown sound
