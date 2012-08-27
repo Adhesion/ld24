@@ -236,13 +236,14 @@ var Player = me.ObjectEntity.extend(
             }
         }
 
-        if ( this.falling && !this.wallStuck )
+        // check collision against environment
+        var envRes = this.updateMovement();
+
+        if ( this.falling && !this.wallStuck && !this.swimming &&
+             this.vel.y > 1.0 )
         {
             this.fallCounter++;
         }
-
-        // check collision against environment
-        var envRes = this.updateMovement();
 
         if (
             this.haveWallStick &&
@@ -264,7 +265,7 @@ var Player = me.ObjectEntity.extend(
         }
         else if ( envRes.y > 0 )
         {
-            if ( this.fallCounter > 130 )
+            if ( this.fallCounter > 65 )
             {
                 this.hit( "fall" );
             }
@@ -289,10 +290,6 @@ var Player = me.ObjectEntity.extend(
         else if ( envRes.y < 0 )
         {
             //console.log( "ceiling?" );
-        }
-        else if ( this.falling )
-        {
-            this.fallCounter++;
         }
 
         // check collision against other objects
