@@ -173,6 +173,27 @@ var RadmarsScreen = me.ScreenObject.extend({
 var LevelChanger = me.LevelEntity.extend({
     init: function( x, y, settings ) {
         this.parent( x, y, settings );
+
+        var fruitSettings = new Object();
+        fruitSettings.image = "fruit";
+        fruitSettings.spritewidth = 48;
+
+        this.fruit = new me.ObjectEntity( x, y, fruitSettings );
+        this.fruit.animationspeed = 3;
+
+        this.fruit.addAnimation( "idle", [ 0, 1, 2, 3, 4, 5 ] );
+        this.fruit.addAnimation( "eat", [ 6 ] );
+        this.fruit.setCurrentAnimation( "idle" );
+
+        me.game.add( this.fruit, 5 );
+        me.game.sort();
+    },
+
+    onCollision : function()
+    {
+        console.log( "hit level change" );
+        this.fruit.setCurrentAnimation( "eat" );
+        return this.parent();
     },
 
     /** Dirty hack. I don't think they intended to expose onFadeComplete. */
@@ -181,8 +202,12 @@ var LevelChanger = me.LevelEntity.extend({
         me.state.current().changeLevel( );
     },
 
-
     goTo: function ( level ) {
+        // hack bad. bad hack TODO
+        if ( this.gotolevel == "gameover" ) {
+            me.state.change( me.state.GAMEOVER );
+            return;
+        }
         this.parent( level );
 
         // When we swap levels the correct way, we should 0 out any skills we've
@@ -190,13 +215,6 @@ var LevelChanger = me.LevelEntity.extend({
         for( var skill in me.state.current().abilities  ) {
             me.state.current().abilities[skill] = false;
         }
-
-        /*
-        if ( this.gotolevel == "gameover" ) {
-          me.state.change( me.state.GAMEOVER );
-          return;
-        }
-        */
     }
 });
 

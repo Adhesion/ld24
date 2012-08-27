@@ -31,6 +31,7 @@ var gameResources =
     { name: "bomb", type: "image", src: "data/bomb.png" },
     { name: "spikes", type: "image", src: "data/spike.png" },
     { name: "balloon", type: "image", src: "data/baloon.png" },
+    { name: "fruit", type: "image", src: "data/fruit.png" },
 
     { name: "collision_tiles", type: "image", src: "data/collision_tiles.png" },
     { name: "maptile", type: "image", src: "data/maptile.png" },
