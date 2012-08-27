@@ -39,8 +39,8 @@ var jsApp =
         me.entityPool.add( "bomb", Bomb );
         me.entityPool.add( "spikes", Spikes );
         me.entityPool.add( "balloon", Balloon );
-        me.entityPool.add( "StoryNode", StoryNode);
-        me.entityPool.add( "LevelChanger", LevelChanger);
+        me.entityPool.add( "StoryNode", StoryNode );
+        me.entityPool.add( "LevelChanger", LevelChanger );
 
         me.debug.renderHitBox = false;
 

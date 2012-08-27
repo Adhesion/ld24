@@ -169,7 +169,7 @@ var Player = me.ObjectEntity.extend(
             this.checkInput();
         }
 
-        if ( this.falling )
+        if ( this.falling && !this.wallStuck )
         {
             this.fallCounter++;
         }
