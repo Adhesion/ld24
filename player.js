@@ -121,7 +121,7 @@ var Player = me.ObjectEntity.extend(
 
        // TODO hack: z not set yet so do constant z
        spawnParticle( this.pos.x, this.pos.y, "egg", 144,
-           [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ], 6, 10 );
+           [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ], 7, 10 );
        me.audio.play( "spawn" );
    },
 

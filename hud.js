@@ -14,11 +14,13 @@ var DeathDisplay = me.HUD_Item.extend(
         this.parent( x, y );
         this.font = new me.BitmapFont( "16x16_font", 16 );
         this.font.set( "left", 1 );
+        this.deathsIcon = me.loader.getImage( "skull" );
     },
 
     draw: function( context, x, y )
     {
-        this.font.draw( context, "DEATHS: " + me.game.deathCount,
-            this.pos.x + x, this.pos.y + y );
+        context.drawImage( this.deathsIcon, this.pos.x + x, this.pos.y + y );
+        this.font.draw( context, "X " + me.game.deathCount,
+            this.pos.x + x + 64, this.pos.y + y + 24 );
     }
 });
