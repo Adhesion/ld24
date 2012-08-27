@@ -51,9 +51,9 @@
     <property name="to" value="level11"/>
    </properties>
   </object>
-  <object name="saw" x="1147" y="916" width="49" height="89">
+  <object name="saw" x="1147" y="866" width="52" height="428">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="saw"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>

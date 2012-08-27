@@ -51,15 +51,16 @@
     <property name="to" value="level10"/>
    </properties>
   </object>
-  <object name="saw" x="527" y="914" width="49" height="89">
+  <object name="saw" x="530" y="674" width="48" height="331">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="direction" value="1"/>
+    <property name="image" value="saw"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
-  <object name="saw" x="763" y="914" width="49" height="89">
+  <object name="saw" x="762" y="1011" width="50" height="382">
    <properties>
-    <property name="image" value="dude01"/>
+    <property name="image" value="saw"/>
     <property name="spritewidth" value="48"/>
    </properties>
   </object>
