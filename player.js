@@ -233,10 +233,7 @@ var Player = me.ObjectEntity.extend(
         {
             if ( colRes.obj.type == "rock" )
             {
-                if ( !this.spikeHat )
-                {
-                    this.hit( colRes.obj.type );
-                }
+                this.hit( colRes.obj.type );
             }
             else if ( colRes.obj.type == "bomb" )
             {
