@@ -16,7 +16,6 @@ var Water = me.InvisibleEntity.extend({
     }
 });
 
-
 var Rock = me.ObjectEntity.extend(
 {
     init: function( x, y, settings )
@@ -37,6 +36,7 @@ var Rock = me.ObjectEntity.extend(
         // remove rock after hitting ground
         if ( envRes.y > 0 && this.collidable )
         {
+            me.audio.play( "hit" );
             this.die();
         }
         this.parent( this );

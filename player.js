@@ -52,11 +52,11 @@ var Player = me.ObjectEntity.extend(
        }
 
        // abilities
-       this.haveDoubleJump = unlocked('doubleJump');
-       this.haveRocketJump = unlocked('rocketJump');
-       this.haveButtStomp = unlocked('buttStomp');
-       this.haveWallStick = unlocked('wallStick');
-       this.spikeHat = unlocked('spikeHat');
+       this.haveDoubleJump = unlocked('doubleJump') || true;
+       this.haveRocketJump = unlocked('rocketJump') || true;
+       this.haveButtStomp = unlocked('buttStomp') || true;
+       this.haveWallStick = unlocked('wallStick') || true;
+       this.spikeHat = unlocked('spikeHat') || true;
        this.haveGills = unlocked('gills');
 
        //var shieldsettings = new Object();
@@ -129,12 +129,16 @@ var Player = me.ObjectEntity.extend(
     {
         this.hp--;
         if ( this.hp == 0 ) {
+            me.audio.play( "hit" );
             this.setCurrentAnimation( "die" );
+            me.audio.play( "die" );
             this.flicker( 90, function () {
                 this.die( type );
             });
         }
         else if( this.shield ) {
+            // TODO maybe different sound for shield
+            me.audio.play( "hit" );
             this.shield.flicker( 90, function() {
                 me.game.player.shield = null;
                 me.game.remove( this );
@@ -187,6 +191,16 @@ var Player = me.ObjectEntity.extend(
             me.levelDirector.reloadLevel();
             me.state.current().changeLevel( );
         });
+
+        // have to force restart on music
+        if ( type == "drown" || this.drowning )
+        {
+            if ( this.drowning )
+            {
+                me.audio.stop( "drown" );
+            }
+            me.audio.playTrack( me.state.current().getCurrentMusic() );
+        }
     },
 
     update: function()
@@ -211,7 +225,8 @@ var Player = me.ObjectEntity.extend(
             // 11 seconds for drown sound
             if ( this.breath < 660 && !this.drowning )
             {
-                // play sound
+                me.audio.stopTrack();
+                me.audio.play( "drown" );
                 console.log( "!!!! drowning" );
                 this.drowning = true;
             }
@@ -245,6 +260,7 @@ var Player = me.ObjectEntity.extend(
             this.vel.y = 0.0;
             this.resetFall();
             this.buttStomped = false;
+            me.audio.play( "wallstick" );
         }
         else if ( envRes.y > 0 )
         {
@@ -304,6 +320,7 @@ var Player = me.ObjectEntity.extend(
                 this.animationspeed = 7;
                 spawnParticle( this.pos.x, colRes.obj.pos.y - 192, "splash", 144,
                     [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z + 1 );
+                me.audio.play( "splash" );
                 if ( this.haveGills )
                 {
                     console.log( "into water with gills, resetting breath" );
@@ -324,6 +341,7 @@ var Player = me.ObjectEntity.extend(
                 if ( this.spikeHat )
                 {
                     colRes.collidable = false;
+                    me.audio.play( "balloonpop" );
                     colRes.obj.setCurrentAnimation( "pop", function()
                         {
                             me.game.remove( this );
@@ -339,6 +357,7 @@ var Player = me.ObjectEntity.extend(
             this.animationspeed = 4;
             this.swimming = false;
             this.gravity = this.origGravity;
+            me.audio.play( "splashout" );
             if ( !this.haveGills )
             {
                 console.log( "out of water, lungs, resetting breath" );
@@ -354,6 +373,7 @@ var Player = me.ObjectEntity.extend(
             this.impactCounter = 10;
             spawnParticle( this.pos.x, this.pos.y, "buttstompimpact", 144,
                 [ 0, 1, 2, 3, 4 ], 3, this.z + 1 );
+            me.audio.play( "buttstomp" );
         }
 
         if( this.hp <= 0)
@@ -414,6 +434,7 @@ var Player = me.ObjectEntity.extend(
                                             "bubble",
                                             24, [ 0, 1, 2, 3, 4, 5, 6 ], 6,
                                             this.z + 1 );
+                // bubble pop sound?
             }
         }
 
@@ -445,7 +466,9 @@ var Player = me.ObjectEntity.extend(
     {
         if ( this.drowning )
         {
-            // reset song
+            me.audio.stop( "drown" );
+            me.audio.playTrack( me.state.current().getCurrentMusic() );
+            this.drowning = false;
         }
         this.breath = this.maxBreath;
     },
@@ -476,6 +499,7 @@ var Player = me.ObjectEntity.extend(
                 {
                     this.flipX( this.wallStuckDir > 0 );
                     this.forceJump();
+                    me.audio.play( "jump" );
                     this.vel.x = this.wallStuckDir * -10.0;
                 }
             }
@@ -508,6 +532,7 @@ var Player = me.ObjectEntity.extend(
             // TODO Ugly hacks
             if ( me.input.isKeyPressed( "jump" ) ) {
                 this.doJump();
+                me.audio.play( "jump" );
             }
             return;
         }
@@ -530,6 +555,7 @@ var Player = me.ObjectEntity.extend(
             if ( !this.jumping && !this.falling )
             {
                 this.doJump();
+                me.audio.play( "jump" );
             }
             // double jump
             else if ( this.haveDoubleJump && !this.doubleJumped )
@@ -539,6 +565,7 @@ var Player = me.ObjectEntity.extend(
                 this.doubleJumped = true;
                 spawnParticle( this.pos.x, this.pos.y, "doublejump", 144,
                     [ 0, 1, 2, 3, 4, 5 ], 3, this.z + 1 );
+                me.audio.play( "doublejump" );
             }
         }
 
@@ -556,6 +583,7 @@ var Player = me.ObjectEntity.extend(
                 this.rocketJumped = true;
                 spawnParticle( this.pos.x, this.pos.y + 25, "explode", 144,
                     [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z + 1 );
+                me.audio.play( "explosion" );
             }
         }
 
@@ -566,6 +594,7 @@ var Player = me.ObjectEntity.extend(
             this.setVelocity( 5.0, 15.0 );
             this.vel.y = 15.0;
             this.buttStomped = true;
+            me.audio.play( "attack" );
         }
     },
 

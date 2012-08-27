@@ -85,11 +85,33 @@ var PlayScreen = me.ScreenObject.extend(
         return results[1];
     },
 
-    /** Update the level display. */
+    /** Update the level display & music. Called on all level changes. */
     changeLevel: function( )
     {
         this.levelDisplay.reset("levelDisplay");
         this.skillDisplay.reset('skillDisplay');
+
+        var curLevel = this.getLevel();
+
+        this.lastMusic = this.music;
+        if ( curLevel < 6 )
+        {
+            this.music = "forest";
+        }
+        else if ( curLevel < 11 )
+        {
+            this.music = "cave";
+        }
+        else
+        {
+            this.music = "tech";
+        }
+
+        if ( this.lastMusic != this.music )
+        {
+            me.audio.stopTrack();
+            me.audio.playTrack( this.music );
+        }
     },
 
     getCurrentMusic: function()
@@ -99,29 +121,10 @@ var PlayScreen = me.ScreenObject.extend(
 
     startLevel: function( level )
     {
-        this.changeLevel();
+        // this only gets called on start?
         me.levelDirector.loadLevel( level );
         me.game.sort();
-
-        /*this.lastMusic = this.music;
-        if ( this.level == 1 )
-        {
-
-        }
-        else if ( this.level == 6 )
-        {
-
-        }
-        else if ( this.level == 11 )
-        {
-
-        }
-
-        if ( this.lastMusic != this.music )
-        {
-            me.audio.stopTrack();
-            me.audio.playTrack( music );
-        }*/
+        this.changeLevel();
     },
 
     // this will be called on state change -> this
@@ -223,6 +226,12 @@ var LevelChanger = me.LevelEntity.extend({
     onCollision : function()
     {
         this.fruit.setCurrentAnimation( "eat" );
+        // hack to stop drown sound
+        if ( me.game.player.drowning )
+        {
+            me.audio.stop( "drown" );
+            me.audio.playTrack( me.state.current().getCurrentMusic() );
+        }
         return this.parent();
     },
 

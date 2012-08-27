@@ -1,4 +1,5 @@
 /* Defines the enemies.  */
+
 var Enemy = me.ObjectEntity.extend({
 	init: function( x, y, settings ){
 		this.parent( x, y, settings );
@@ -33,6 +34,7 @@ var Enemy = me.ObjectEntity.extend({
 	},
 
 	die: function() {
+        me.audio.play( "enemydeath" );
 		this.alive = false;
 		this.collidable = false;
 		this.setCurrentAnimation( "die" );
@@ -142,6 +144,7 @@ var Bomb = me.ObjectEntity.extend({
         me.game.remove( this );
         spawnParticle( this.pos.x - 48, this.pos.y - 48,
             "explode", 144, [ 0, 1, 2, 3, 4, 5, 6, 7 ], 3, this.z );
+        me.audio.play( "explosion" );
     },
 
     checkCollision: function( obj )

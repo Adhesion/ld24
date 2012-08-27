@@ -62,12 +62,29 @@ var gameResources =
     { name: "level14", type: "tmx", src: "data/level14.tmx" },
     { name: "level15", type: "tmx", src: "data/level15.tmx" },
 
-
-
-
     { name: "16x16_font", type: "image", src: "data/16x16_font.png" },
     { name: "32x32_font", type: "image", src: "data/32x32_font.png" },
     { name: "64x64_font", type: "image", src: "data/64x64_font.png" },
 
-    { name: "radmarslogo", type: "audio", src: "data/", channels : 2 }
+    { name: "radmarslogo", type: "audio", src: "data/", channels : 2 },
+    { name: "theme", type: "audio", src: "data/", channels : 2 },
+    { name: "forest", type: "audio", src: "data/", channels : 2 },
+    { name: "cave", type: "audio", src: "data/", channels : 2 },
+    { name: "tech", type: "audio", src: "data/", channels : 2 },
+    { name: "drown", type: "audio", src: "data/", channels : 2 },
+
+    { name: "attack", type: "audio", src: "data/", channels : 2 },
+    { name: "balloonpop", type: "audio", src: "data/", channels : 2 },
+    { name: "bubble", type: "audio", src: "data/", channels : 2 },
+    { name: "buttstomp", type: "audio", src: "data/", channels : 2 },
+    { name: "die", type: "audio", src: "data/", channels : 2 },
+    { name: "doublejump", type: "audio", src: "data/", channels : 2 },
+    { name: "enemydeath", type: "audio", src: "data/", channels : 2 },
+    { name: "explosion", type: "audio", src: "data/", channels : 2 },
+    { name: "hit", type: "audio", src: "data/", channels : 2 },
+    { name: "jump", type: "audio", src: "data/", channels : 2 },
+    { name: "spawn", type: "audio", src: "data/", channels : 2 },
+    { name: "splash", type: "audio", src: "data/", channels : 2 },
+    { name: "splashout", type: "audio", src: "data/", channels : 2 },
+    { name: "wallstick", type: "audio", src: "data/", channels : 2 }
 ];
