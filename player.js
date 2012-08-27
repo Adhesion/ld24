@@ -337,7 +337,7 @@ var Player = me.ObjectEntity.extend(
                 this.vel.y = 0;
                 if ( this.spikeHat )
                 {
-                    colRes.collidable = false;
+                    colRes.obj.collidable = false;
                     me.audio.play( "balloonpop" );
                     colRes.obj.setCurrentAnimation( "pop", function()
                         {
