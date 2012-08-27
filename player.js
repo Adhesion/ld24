@@ -384,6 +384,24 @@ var Player = me.ObjectEntity.extend(
             else this.setCurrentAnimation( "idle" );
         }
 
+        // bubble spawn if swimming
+        if ( this.swimming )
+        {
+            if ( Math.random() < 0.0075 )
+            {
+                var xPos = this.pos.x;
+                // hack of a method to check for flip
+                if ( this.scale.x > 0 )
+                {
+                    xPos += 120;
+                }
+                var bubble = spawnParticle( xPos, this.pos.y + 76,
+                                            "bubble",
+                                            24, [ 0, 1, 2, 3, 4, 5, 6 ], 6,
+                                            this.z + 1 );
+            }
+        }
+
         if ( this.impactCounter > 0 ) --this.impactCounter;
         if ( this.wallStuckCounter > 0 ) --this.wallStuckCounter;
 

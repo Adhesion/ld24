@@ -365,6 +365,8 @@ function spawnParticle( x, y, sprite, spritewidth, frames, speed, z )
         function() { me.game.remove( particle ) } );
     me.game.add( particle, z );
     me.game.sort();
+
+    return particle;
 }
 
 window.onReady( function()
