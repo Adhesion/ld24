@@ -230,14 +230,14 @@ var TemporaryDisplay = me.HUD_Item.extend({
         this.font.set("left", 1);
     },
 
-    /** Adds the display and resets the object. After a 2000 ms timeout the
+    /** Adds the display and resets the object. After a X ms timeout the
      * object goes away. */
     reset: function( item ) {
         this.parent();
         me.game.HUD.addItem( item, this );
         window.setTimeout( function() {
             me.game.HUD.removeItem( item );
-        }, 2000 );
+        }, 5000 );
     },
 
     /** This should be overwritten. */
