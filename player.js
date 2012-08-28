@@ -327,6 +327,7 @@ var Player = me.ObjectEntity.extend(
                 this.falling = false;
                 this.jumping = false;
                 this.resetFall();
+                this.buttStomped = false;
                 this.swimming = true;
                 this.gravity = 0;
                 this.setCurrentAnimation( "swim" );
