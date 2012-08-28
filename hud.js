@@ -21,6 +21,6 @@ var DeathDisplay = me.HUD_Item.extend(
     {
         context.drawImage( this.deathsIcon, this.pos.x + x, this.pos.y + y );
         this.font.draw( context, "X " + me.game.deathCount,
-            this.pos.x + x + 64, this.pos.y + y + 24 );
+            this.pos.x + x + 64, this.pos.y + y + 17 );
     }
 });

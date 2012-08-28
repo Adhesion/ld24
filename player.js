@@ -38,6 +38,7 @@ var Player = me.ObjectEntity.extend(
        this.addAnimation( "die", [ 15 ] );
        this.addAnimation( "swim_idle", [ 16, 17, 18, 19 ] );
        this.addAnimation( "swim", [ 20, 21, 22, 23 ] );
+       this.addAnimation( "hidden", [ 24 ] );
 
        var vars = {};
        var parts = window.location.href.replace(
@@ -90,6 +91,7 @@ var Player = me.ObjectEntity.extend(
        this.fallCounter = 0;
        this.impactCounter = 0;
        this.bubbleCounter = 0;
+       this.eggCounter = 0;
 
        this.hp = 1;
        if ( this.shield )
@@ -198,7 +200,6 @@ var Player = me.ObjectEntity.extend(
             }
         }
 
-        console.log( "player died type %s", type );
         me.game.viewport.fadeIn( '#000000', 1000, function() {
             me.levelDirector.reloadLevel();
             me.state.current().changeLevel( );
@@ -231,15 +232,12 @@ var Player = me.ObjectEntity.extend(
         if ( this.swimming != canBreatheWater( this.haveGills ) )
         {
             this.breath--;
-            if ( this.breath % 60 == 0 )
-                console.log( "held breath (swimming %i, gills %i)", this.swimming, canBreatheWater( this.haveGills ) );
 
             // 11 seconds for drown sound
             if ( this.breath < 660 && !this.drowning )
             {
                 me.audio.stopTrack();
                 me.audio.play( "drown" );
-                console.log( "!!!! drowning" );
                 this.drowning = true;
             }
             if ( this.breath == 0 )
@@ -324,7 +322,6 @@ var Player = me.ObjectEntity.extend(
             }
             else if ( !this.swimming && colRes.obj.type == "water" )
             {
-                console.log( "into water" );
                 this.vel.y *= .5;
                 this.vel.x *= .5;
                 this.falling = false;
@@ -339,7 +336,6 @@ var Player = me.ObjectEntity.extend(
                 me.audio.play( "splash" );
                 if ( this.haveGills )
                 {
-                    console.log( "into water with gills, resetting breath" );
                     this.resetBreath();
                 }
             }
@@ -369,14 +365,12 @@ var Player = me.ObjectEntity.extend(
         // set swimming false if not colliding with anything & swimming
         else if( this.swimming )
         {
-            console.log( "out of water" );
             this.animationspeed = 4;
             this.swimming = false;
             this.gravity = this.origGravity;
             me.audio.play( "splashout" );
             if ( !this.haveGills )
             {
-                console.log( "out of water, lungs, resetting breath" );
                 this.resetBreath();
             }
         }
@@ -395,6 +389,11 @@ var Player = me.ObjectEntity.extend(
         if( this.hp <= 0)
         {
             this.setCurrentAnimation( "die" );
+        }
+        else if ( this.eggCounter < 15 )
+        {
+            this.setCurrentAnimation( "hidden" );
+            this.eggCounter++;
         }
         else if ( this.impactCounter > 0 )
         {
